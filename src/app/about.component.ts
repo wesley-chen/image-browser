@@ -1,11 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+declare var Notification: any;
+
+import { ipcRenderer } from 'electron';
+
 @Component({
   template: `
   <h2 highlight="skyblue">About</h2>
   <twain-quote></twain-quote>
   <p>All about this sample</p>`
 })
-export class AboutComponent { }
+export class AboutComponent implements OnInit {
+
+  ngOnInit(): void {
+    ipcRenderer.on('asynchronous-reply', (event, arg) => {
+      let myNotification = new Notification('Title', {
+        body: 'pong'
+      });
+
+      myNotification.onclick = () => {
+        console.log('Notification clicked');
+      };
+    });
+    ipcRenderer.send('asynchronous-message', 'ping');
+  }
+}
 
 
 /*

@@ -14,7 +14,7 @@
     "test-once": "karma start --single-run",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "prod-server": "lite-server -c config/bs-config.prod.json",
-    "build.desktop-main": "rimraf dist && webpack --config config/webpack.desktop-main.js --progress --profile --bail",
+    "build.desktop-main": "webpack --config config/webpack.desktop-main.js --progress --profile --bail",
     "build.desktop-renderer": "webpack --config config/webpack.desktop-renderer.js --progress --profile --bail",
     "build.desktop": "rimraf dist && npm run build.desktop-main && npm run build.desktop-renderer",
     "start.desktop": "electron dist"
@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@types/core-js": "^0.9.34",
+    "@types/electron": "^1.4.27",
     "@types/jasmine": "^2.5.36",
     "@types/node": "^6.0.46",
     "@types/selenium-webdriver": "^2.53.33",

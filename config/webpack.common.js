@@ -29,12 +29,7 @@ module.exports = {
         loader: 'html'
       },
       {
-        test: /favicon.ico$/,
-        loader: 'file?name=[name].[ext]'
-      },
-      {
         test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-        exclude: /favicon.ico$/,
         loader: 'file?name=assets/[name].[hash].[ext]'
       },
       {
@@ -56,6 +51,7 @@ module.exports = {
     }),
 
     new HtmlWebpackPlugin({
+      favicon: 'src/assets/images/favicon.ico',
       template: 'src/index.html'
     })
   ]

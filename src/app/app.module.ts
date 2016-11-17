@@ -1,3 +1,4 @@
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { NgModule }         from '@angular/core';
 import { BrowserModule }    from '@angular/platform-browser';
 
@@ -22,7 +23,7 @@ import { SharedModule }     from './shared/shared.module';
     AppRoutingModule,
     SharedModule
   ],
-  providers:    [ HeroService, TwainService, UserService ],
+  providers:    [ { provide: LocationStrategy, useClass: HashLocationStrategy }, HeroService, TwainService, UserService ],
   declarations: [ AppComponent, AboutComponent, BannerComponent, WelcomeComponent ],
   bootstrap:    [ AppComponent ]
 })

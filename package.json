@@ -13,16 +13,15 @@
     "test": "karma start",
     "test-once": "karma start --single-run",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
-    "prod-server": "lite-server -c config/bs-config.prod.json"
+    "prod-server": "lite-server -c config/bs-config.prod.json",
+    "build.desktop-main": "rimraf dist && webpack --config config/webpack.desktop-main.js --progress --profile --bail",
+    "build.desktop-renderer": "webpack --config config/webpack.desktop-renderer.js --progress --profile --bail",
+    "build.desktop": "rimraf dist && npm run build.desktop-main && npm run build.desktop-renderer",
+    "start.desktop": "electron dist"
   },
   "keywords": [],
   "author": "",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/angular/angular.io/blob/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "dependencies": {
     "@angular/common": "~2.2.0",
     "@angular/compiler": "~2.2.0",
@@ -35,6 +34,8 @@
     "@angular/upgrade": "~2.2.0",
     "angular-in-memory-web-api": "~0.1.13",
     "core-js": "^2.4.1",
+    "electron": "1.4.7",
+    "reflect-metadata": "~0.1.8",
     "rxjs": "5.0.0-beta.12",
     "zone.js": "^0.6.26"
   },
@@ -47,6 +48,8 @@
     "angular2-template-loader": "^0.6.0",
     "awesome-typescript-loader": "^2.2.4",
     "css-loader": "^0.25.0",
+    "electron-packager": "8.2.0",
+    "electron-webpack-plugin": "^1.2.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "html-loader": "^0.4.3",

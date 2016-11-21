@@ -5,17 +5,23 @@ const {app, ipcMain} = electron;
 // Module to create native browser window.
 const {BrowserWindow} = electron;
 
+var client;
+if (process.env.ENV !== 'production') {
+  client = require('electron-connect').client;
+}
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
 function createWindow() {
-  var icon;
+  var img;
   if (process.platform === 'win32') {
-    icon = Path.resolve(__dirname, 'assets', 'monitor.ico');
+    img = require('./assets/images/angular.ico');
   } else {
-    icon = Path.resolve(__dirname, 'assets', 'monitor.png');
+    img = require('./assets/images/angular.png');
   }
+  var icon = Path.resolve(__dirname, img);
 
   // Create the browser window.
   win = new BrowserWindow({
@@ -25,13 +31,8 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  if (process.env.ENV === 'production') {
-    win.loadURL(`file://${__dirname}/index.html`);
-    console.log(`loading file://${__dirname}/index.html`);
-  } else {
-    win.loadURL('http://localhost:8080/index.html');
-    console.log('loading http://localhost:8080/index.html');
-  }
+  win.loadURL(`file://${__dirname}/index.html`);
+  console.log(`loading file://${__dirname}/index.html`);
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -40,6 +41,13 @@ function createWindow() {
     // when you should delete the corresponding element.
     win = null;
   });
+
+  if (client) {
+    // Use electron-connect to reload page when source changes
+    client.create(win, {
+      logLevel: 0
+    });
+  }
 }
 
 app.setName('Angular Tour of Heroes');

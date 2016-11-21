@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 declare var Notification: any;
 
-import { ipcRenderer } from 'electron';
+// import { ipcRenderer } from 'electron';
 
 @Component({
   template: `
@@ -13,16 +13,16 @@ import { ipcRenderer } from 'electron';
 export class AboutComponent implements OnInit {
 
   ngOnInit(): void {
-    ipcRenderer.on('asynchronous-reply', (event, arg) => {
-      let myNotification = new Notification('Title', {
-        body: 'pong'
-      });
+    // ipcRenderer.on('asynchronous-reply', (event, arg) => {
+    //   let myNotification = new Notification('Title', {
+    //     body: 'pong'
+    //   });
 
-      myNotification.onclick = () => {
-        console.log('Notification clicked');
-      };
-    });
-    ipcRenderer.send('asynchronous-message', 'ping');
+    //   myNotification.onclick = () => {
+    //     console.log('Notification clicked');
+    //   };
+    // });
+    // ipcRenderer.send('asynchronous-message', 'ping');
   }
 }
 

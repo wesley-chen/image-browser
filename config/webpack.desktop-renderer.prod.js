@@ -1,17 +1,19 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
+var path = require('path');
+var rendererConfig = require('./webpack.desktop-renderer.js');
 var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
 
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
-module.exports = webpackMerge(commonConfig, {
+module.exports = webpackMerge(rendererConfig, {
+  name: "renderer",
+
   devtool: 'source-map',
 
   output: {
     path: helpers.root('dist'),
-    publicPath: '/',
     filename: '[name].[hash].js',
     chunkFilename: '[id].[hash].chunk.js'
   },

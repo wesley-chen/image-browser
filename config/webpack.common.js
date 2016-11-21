@@ -1,7 +1,7 @@
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var helpers = require('./helpers');
+var webpack = require('webpack');
 
 module.exports = {
   entry: {

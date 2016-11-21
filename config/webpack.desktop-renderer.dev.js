@@ -1,9 +1,9 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
+var rendererConfig = require('./webpack.desktop-renderer.js');
 var webpackMerge = require('webpack-merge');
 
-module.exports = webpackMerge(commonConfig, {
+module.exports = webpackMerge(rendererConfig, {
   devtool: 'cheap-module-eval-source-map',
 
   output: {

@@ -25,8 +25,13 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  win.loadURL(`file://${__dirname}/index.html`);
-  console.log(`loading file://${__dirname}/index.html`);
+  if (process.env.ENV === 'production') {
+    win.loadURL(`file://${__dirname}/index.html`);
+    console.log(`loading file://${__dirname}/index.html`);
+  } else {
+    win.loadURL('http://localhost:8080/index.html');
+    console.log('loading http://localhost:8080/index.html');
+  }
 
   // Emitted when the window is closed.
   win.on('closed', () => {

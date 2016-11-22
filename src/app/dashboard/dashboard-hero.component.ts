@@ -5,7 +5,7 @@ import { Hero } from '../model';
 @Component({
   selector:    'dashboard-hero',
   templateUrl: 'dashboard-hero.component.html',
-  styleUrls: [ 'dashboard-hero.component.css' ]
+  styleUrls: [ 'dashboard-hero.component.scss' ]
 })
 export class DashboardHeroComponent {
   @Input() hero: Hero;

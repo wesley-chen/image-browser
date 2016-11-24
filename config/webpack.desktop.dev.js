@@ -1,3 +1,4 @@
+var ElectronConnectPlugin = require('./electron-connect-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var desktopConfig = require('./webpack.desktop.js');
 var helpers = require('./helpers');
@@ -6,39 +7,38 @@ var webpackMerge = require('webpack-merge');
 var mainConfig = desktopConfig.filter((item) => item.name === "main");
 var rendererConfig = desktopConfig.filter((item) => item.name === "renderer");
 
-var distDir = 'dist-dev';
-
-var mainPlugin = new helpers.ElectronMainWebpackPlugin({
-  logLevel: 0,
-  path: helpers.root(distDir),
-  stopOnClose: true,
-});
+var electronConnectPlugin = new ElectronConnectPlugin(['--remote-debugging-port=8315'],
+  {
+    logLevel: 0,
+    path: helpers.root('dist'),
+    stopOnClose: true,
+  }
+);
+var mainPlugin = electronConnectPlugin.mainPlugin;
+var rendererPlugin = electronConnectPlugin.rendererPlugin;
 
 module.exports = [
   webpackMerge(mainConfig, {
     output: {
-      path: helpers.root(distDir),
+      path: helpers.root('dist'),
       filename: '[name].js',
     },
     plugins: [
-      mainPlugin
+      mainPlugin,
     ]
   }),
   webpackMerge(rendererConfig, {
     devtool: 'cheap-module-eval-source-map',
 
     output: {
-      path: helpers.root(distDir),
+      path: helpers.root('dist'),
       filename: '[name].[hash].js',
       chunkFilename: '[id].[hash].chunk.js'
     },
 
     plugins: [
       new ExtractTextPlugin('[name].css'),
-      new helpers.ElectronRendererWebpackPlugin(mainPlugin, {
-        logLevel: 0,
-        path: helpers.root(distDir)
-      })
+      rendererPlugin,
     ],
   })
 ];

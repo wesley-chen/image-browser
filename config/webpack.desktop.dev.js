@@ -10,7 +10,8 @@ var distDir = 'dist-dev';
 
 var mainPlugin = new helpers.ElectronMainWebpackPlugin({
   logLevel: 0,
-  path: helpers.root(distDir)
+  path: helpers.root(distDir),
+  stopOnClose: true,
 });
 
 module.exports = [

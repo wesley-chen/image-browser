@@ -5,7 +5,7 @@ const {app, ipcMain} = electron;
 // Module to create native browser window.
 const {BrowserWindow} = electron;
 
-var client;
+let client;
 if (process.env.ENV !== 'production') {
   client = require('electron-connect').client;
 }
@@ -49,8 +49,6 @@ function createWindow() {
     });
   }
 }
-
-app.setName('Angular Tour of Heroes');
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

@@ -27,19 +27,9 @@ module.exports = {
         loader: 'null'
       },
       {
-        test: /\.scss$/,
-        exclude: helpers.root('src', 'app'),
-        loader: 'null'
-      },
-      {
         test: /\.css$/,
         include: helpers.root('src', 'app'),
         loader: 'raw'
-      },
-      {
-        test: /\.scss$/,
-        include: helpers.root('src', 'app'),
-        loaders: ['raw', 'sass']
       }
     ]
   }

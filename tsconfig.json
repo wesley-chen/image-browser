@@ -6,9 +6,18 @@
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "removeComments": false,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true
   },
+  "types": [
+    "node",
+    "electron"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
   "compileOnSave": false
 }

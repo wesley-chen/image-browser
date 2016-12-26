@@ -1,7 +1,7 @@
 {
   "name": "tp-image-browser",
   "version": "0.0.1",
-  "description": "",
+  "description": "Image Browser with Electron and Angular2",
   "author": "Wesley Chen",
   "license": "MIT",
   "scripts": {
@@ -9,7 +9,7 @@
     "start": "webpack-dev-server --inline --progress --port 8080",
     "build.prod": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "start.prod": "lite-server -c config/bs-config.prod.json",
-    "start.desktop": "rimraf dist-dev && webpack --config config/webpack.desktop.dev.js --watch --progress --profile --colors --display-error-details --display-cached",
+    "start.desktop": "rimraf dist-dev && webpack --config config/webpack.desktop.dev.js --watch --progress --colors --display-error-details",
     "build.desktop.prod": "rimraf dist && webpack --config config/webpack.desktop.prod.js --progress --profile --bail",
     "start.desktop.prod": "electron dist"
   },

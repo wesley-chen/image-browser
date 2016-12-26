@@ -16,6 +16,8 @@ import { WelcomeComponent } from './welcome.component';
 import { DashboardModule }  from './dashboard/dashboard.module';
 import { SharedModule }     from './shared/shared.module';
 
+import { FolderTreeComponent } from './folder-tree';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -24,7 +26,7 @@ import { SharedModule }     from './shared/shared.module';
     SharedModule
   ],
   providers:    [ { provide: LocationStrategy, useClass: HashLocationStrategy }, HeroService, TwainService, UserService ],
-  declarations: [ AppComponent, AboutComponent, BannerComponent, WelcomeComponent ],
+  declarations: [ AppComponent, AboutComponent, BannerComponent, WelcomeComponent, FolderTreeComponent],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

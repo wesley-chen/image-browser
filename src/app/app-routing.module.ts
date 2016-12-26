@@ -1,17 +1,19 @@
-import { NgModule }       from '@angular/core';
-import { RouterModule }   from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { AboutComponent } from './about.component';
+import { FolderTreeComponent } from './folder-tree';
 
 @NgModule({
   imports: [
     RouterModule.forRoot([
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'about', component: AboutComponent },
-      { path: 'heroes', loadChildren: './hero/hero.module#HeroModule'}
+      { path: 'browser', component: FolderTreeComponent },
+      { path: 'heroes', loadChildren: './hero/hero.module#HeroModule' }
     ])
   ],
-  exports: [ RouterModule ] // re-export the module declarations
+  exports: [RouterModule] // re-export the module declarations
 })
 export class AppRoutingModule { };
 

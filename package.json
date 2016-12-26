@@ -1,7 +1,9 @@
 {
-  "name": "angular-tour-of-heroes-webpack",
-  "version": "1.0.0",
-  "description": "QuickStart package.json from the documentation, supplemented with testing support",
+  "name": "tp-image-browser",
+  "version": "0.0.1",
+  "description": "",
+  "author": "Wesley Chen",
+  "license": "MIT",
   "scripts": {
     "docker-build": "docker build -t ng2-quickstart .",
     "docker": "npm run docker-build && docker run -it --rm -p 3000:3000 -p 3001:3001 ng2-quickstart",
@@ -18,9 +20,6 @@
     "build.desktop.prod": "rimraf dist && webpack --config config/webpack.desktop.prod.js --progress --profile --bail",
     "start.desktop.prod": "electron dist"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "@angular/common": "2.2.0",
     "@angular/compiler": "2.2.0",

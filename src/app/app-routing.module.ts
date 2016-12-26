@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AboutComponent } from './about.component';
-import { FolderTreeComponent } from './folder-tree';
+import { ImageBrowserComponent } from './image-browser';
 
 @NgModule({
   imports: [
     RouterModule.forRoot([
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'about', component: AboutComponent },
-      { path: 'browser', component: FolderTreeComponent },
+      { path: 'browser', component: ImageBrowserComponent },
       { path: 'heroes', loadChildren: './hero/hero.module#HeroModule' }
     ])
   ],

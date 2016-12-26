@@ -1,22 +1,25 @@
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { NgModule }         from '@angular/core';
-import { BrowserModule }    from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent }     from './app.component';
+import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { AboutComponent }   from './about.component';
-import { BannerComponent }  from './banner.component';
-import { HeroService,
-         UserService }      from './model';
-import { TwainService }     from './shared/twain.service';
+import { AboutComponent } from './about.component';
+import { BannerComponent } from './banner.component';
+import {
+  HeroService,
+  UserService
+} from './model';
+import { TwainService } from './shared/twain.service';
 import { WelcomeComponent } from './welcome.component';
 
 
-import { DashboardModule }  from './dashboard/dashboard.module';
-import { SharedModule }     from './shared/shared.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { SharedModule } from './shared/shared.module';
 
-import { FolderTreeComponent } from './folder-tree';
+import { ImageBrowserComponent } from './image-browser';
+import { ImageGridComponent } from './image-grid';
 
 @NgModule({
   imports: [
@@ -25,9 +28,9 @@ import { FolderTreeComponent } from './folder-tree';
     AppRoutingModule,
     SharedModule
   ],
-  providers:    [ { provide: LocationStrategy, useClass: HashLocationStrategy }, HeroService, TwainService, UserService ],
-  declarations: [ AppComponent, AboutComponent, BannerComponent, WelcomeComponent, FolderTreeComponent],
-  bootstrap:    [ AppComponent ]
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, HeroService, TwainService, UserService],
+  declarations: [AppComponent, AboutComponent, BannerComponent, WelcomeComponent, ImageBrowserComponent, ImageGridComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
 

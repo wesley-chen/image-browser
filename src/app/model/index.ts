@@ -5,6 +5,9 @@ export * from './http-hero.service';
 export * from './test-heroes';
 
 export * from './user.service';
+export * from './image';
+export * from './file';
+export * from './folder-tree';
 
 
 /*

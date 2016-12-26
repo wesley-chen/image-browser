@@ -19,23 +19,35 @@ export class FileSystemService {
 
 
     /**
-     * Convert to FileModel
+     * Convert to FileModel.
+     * Return null if any exception occurred, e.g. permission issue
      */
     toFile(filePath: string): FileModel {
 
         const FS = require('fs');
         const PATH = require('path');
 
-        let fileInfo = FS.lstatSync(filePath);
+        let fileName: string = PATH.basename(filePath);
+        if (fileName == "") { // root folder case: "C:\"
+            fileName = PATH.dirname(filePath);
+            fileName = fileName.substr(0, fileName.length - 1);
+        }
+        try {
+            let fileInfo = FS.lstatSync(filePath);
 
-        let file = new FileModel();
-        file.name = PATH.basename(filePath);
-        file.path = filePath;
-        file.isDirectory = fileInfo.isDirectory();
-        file.createdAt = fileInfo.birthtime;
-        file.modifiedAt = fileInfo.mtime;
+            let file = new FileModel();
+            file.name = fileName;
+            file.path = filePath;
+            file.isDirectory = fileInfo.isDirectory();
+            file.createdAt = fileInfo.birthtime;
+            file.modifiedAt = fileInfo.mtime;
 
-        return file;
+            return file;
+        } catch (err) {
+            // handle the error safely
+            console.log("Warning: " + err)
+            return null;
+        }
     }
 
     /**
@@ -52,9 +64,13 @@ export class FileSystemService {
         let parentPath = PATH.dirname(currentPath);
         while (parentPath != currentPath) {
             currentPath = parentPath;
+            let parentFolder = this.toFile(currentPath);
+            if (parentFolder != null) {
+                parentFolders.push(this.toFile(currentPath));
+            }
             parentPath = PATH.dirname(currentPath);
-            parentFolders.push(this.toFile(currentPath));
         }
+        parentFolders.reverse();
 
         return parentFolders;
     }
@@ -73,7 +89,7 @@ export class FileSystemService {
         for (let childName of childNames) {
             let childPath = PATH.resolve(filePath, childName);
             let childFile = this.toFile(childPath);
-            if (childFile.isDirectory) {
+            if (childFile != null && childFile.isDirectory) {
                 childFolders.push(childFile);
             }
         }

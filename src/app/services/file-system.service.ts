@@ -108,10 +108,7 @@ export class FileSystemService {
         const FS = require('fs');
         const PATH = require('path');
         const URL = require('file-url');
-
-
-        // Initializes Calipers with support for calipers-png, calipers-jpeg, ...
-        const IMG_UTILS = require('calipers')(this.IMAGE_TYPES);
+        const IMG_SIZE = require('image-size');
 
         let images: Image[] = [];
 
@@ -129,26 +126,14 @@ export class FileSystemService {
                     img.formatName = childFile.fileExt;
                     img.size = childFile.fileSize;
                     img.url = URL(childFile.path);
-                    img.width = 100;
-                    img.height = 100;
+
+                    let dimensions = IMG_SIZE(childPath);
+
+                    img.width = dimensions.width;
+                    img.height = dimensions.height;
                     images.push(img);
                 }
-                // IMG_UTILS.measure(childPath)
-                //     .then(function (result: any) {
-                //         console.log("this " + result.type + " file is " + result.pages[0].width + "x" + result.pages[0].height);
-                //         let isImage = this.IMAGE_TYPES.indexOf(result.type);
-                //         if (isImage) {
-                //             let img = new Image();
-                //             img.fileName = childFile.name;
-                //             img.fileExt = result.type;
-                //             img.formatName = result.type;
-                //             img.size = childFile.fileSize;
-                //             img.url = childFile.path;
-                //             img.width = result.pages[0].width;
-                //             img.height = result.pages[0].height;
-                //             images.push(img);
-                //         }
-                //     });
+
             } // end if
         }
 

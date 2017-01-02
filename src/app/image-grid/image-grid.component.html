@@ -11,7 +11,7 @@
                 <button type="button" class="btn btn-xs" (click)="changeWidth('FitWidth')">
                         <span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true"></span>Fit Width
                     </button>
-                <button type="button" class="btn btn-xs" (click)="changeWidth('100%')">
+                <button type="button" class="btn btn-xs" (click)="changeWidth('Percent100')">
                         <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>100%
                     </button>
             </div>
@@ -21,7 +21,7 @@
 <div class="container-fluid" id="img-container">
     <div class="row">
         <ng-container *ngFor="let img of images; let idx = index;">
-            <div id="imgbox-{{$idx}}" class="imgbox" *ngIf="img.visible" (mouseenter)="moveTo(img, $idx)" [ngClass]="{'imgbox-focus': img == currentImage}"
+            <div id="imgbox-{{$idx}}" class="imgbox" *ngIf="img.visible" (mouseenter)="moveTo(img, $idx)" [ngClass]="{'imgbox-focus': (img == currentImage)}"
                 [ngStyle]="boxStyle">
                 <div>
                     <img src="{{img.url}}" [ngStyle]="img.imgStyle">

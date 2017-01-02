@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef } from '@angular/core';
 import { Image } from '../model';
-import { ImageGridSetting } from './image-grid.model';
+import { ImageGridSetting, WidthMode } from './image-grid.model';
 
 @Component({
     selector: 'tp-image-grid',
@@ -8,42 +8,65 @@ import { ImageGridSetting } from './image-grid.model';
 })
 export class ImageGridComponent {
 
-    @Input()
-    images: Image[] = [];
+    private _images: Image[] = [];
 
     @Input()
     setting: ImageGridSetting;
 
     boxStyle: Object;
+    containerWidth: number;
 
     currentIdx: number = -1;
     currentImage: Image = null;
 
-    changeWidth(widthMode: string) {
+    @Input()
+    set images(images: Image[]) {
+        this._images = images;
+        this.refresh();
+    }
+
+    get images(): Image[] {
+        return this._images;
+    }
+
+    constructor(private elementRef: ElementRef) {
+        this.containerWidth = elementRef.nativeElement.parentNode.clientWidth;
+    }
+
+    changeWidth(widthModeStr: string) {
+        let widthMode = WidthMode[widthModeStr];
+        this._changeWidth(widthMode);
+    }
+
+    refresh() {
+        this._changeWidth(this.setting.widthMode);
+    }
+
+    _changeWidth(widthMode: WidthMode) {
 
         //console.log('ok3' + this.settings.widthMode);
         var defaultWidth = 136;
         var width = defaultWidth;
-        if (widthMode == "Small") {
+        if (widthMode == WidthMode.Small) {
             width = defaultWidth;
             var height = (this.setting.showCaption ? width + 20 : width);
             this.boxStyle = { "width": width + "px", "height": height + "px" };
-        } else if (widthMode == "Middle") {
+        } else if (widthMode == WidthMode.Middle) {
             width = defaultWidth * 2;
             var height = (this.setting.showCaption ? width + 20 : width);
             this.boxStyle = { "width": width + "px", "height": height + "px" };
-        } else if (widthMode == "FitWidth") {
-            width = window.innerWidth - 20; //remove paddings
-            this.boxStyle = { "width": width + "px", "height": "100%" };
-        } else if (widthMode == "100%") {
-            this.boxStyle = { "width": "100%", "height": "100%" };
+        } else if (widthMode == WidthMode.FitWidth) {
+            width = this.containerWidth - 80; //remove paddings
+            this.boxStyle = { "height": "100%" };
+        } else if (widthMode == WidthMode.Percent100) {
+            this.boxStyle = { "height": "100%" };
         }
 
         width = width - 10; //remove paddings
 
         for (let img of this.images) {
             var imageRate = width / Math.max(img.width, img.height, 1);
-            if (widthMode == "100%" || imageRate > 1) {
+            if (widthMode == WidthMode.Percent100 || imageRate > 1) {
                 imageRate = 1;
             }
 
@@ -53,6 +76,8 @@ export class ImageGridComponent {
 
             img.imgStyle = { "width": imgWidth + "px", "height": imgHeight + "px" };
         }
+
+        this.setting.widthMode = widthMode;
     };
 
     onKey(event: KeyboardEvent) { // with type info

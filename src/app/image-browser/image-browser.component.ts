@@ -45,6 +45,35 @@ export class ImageBrowserComponent {
         return deletedContainer;
     }
 
+    onImageClicked(msg: any) {
+
+        let event: MouseEvent = msg.event;
+        let imageUrl: string = msg.imageUrl;
+
+        // Find image
+        let foundImg: Image = null;
+        for (let img of this.tree.images) {
+            if (img.url == imageUrl) {
+                foundImg = img;
+                break;
+            }
+        }
+
+        let action = new Action();
+        action.isClicked = true;
+        action.ctrlKey = event.ctrlKey;
+        action.altKey = event.altKey;
+        action.shiftKey = event.shiftKey;
+
+        // Process by containers
+        for (let container of this.containers) {
+            let handled = container.handleAction(action, foundImg);
+            if(handled){
+                break;
+            }
+        }
+    }
+
     ngOnInit(): void {
         this.tree = this.fileSytemService.buildFolderTree(this.rootPath);
     }

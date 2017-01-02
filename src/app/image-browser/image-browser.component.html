@@ -21,7 +21,7 @@
             </ul>
         </div>
         <div class="col-sm-7 col-md-9 main">
-            <tp-image-grid [images]="tree.images" [setting]="imageGridSetting"></tp-image-grid>
+            <tp-image-grid [images]="tree.images" [setting]="imageGridSetting" (imageClicked)="onImageClicked($event)"></tp-image-grid>
         </div>
         <div class="col-sm-2 col-md-1 container-bar">
             <div *ngFor="let container of containers">

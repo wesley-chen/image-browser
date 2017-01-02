@@ -21,7 +21,7 @@
             <div id="imgbox-{{idx}}" class="imgbox" *ngIf="img.visible" (mouseenter)="moveTo(img, idx, false)" [ngClass]="{'imgbox-focus': (img == currentImage)}"
                 [ngStyle]="boxStyle">
                 <div>
-                    <img src="{{img.url}}" [ngStyle]="img.imgStyle">
+                    <img src="{{img.url}}" [ngStyle]="img.imgStyle" (click)='onClick($event, img.url)'>
                     <div class="caption">
                         <p *ngIf="setting.showCaption">{{img.fileName}}</p>
                     </div>

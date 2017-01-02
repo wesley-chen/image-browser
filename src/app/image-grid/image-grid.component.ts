@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, HostListener } from '@angular/core';
 import { Image } from '../model';
 import { ImageGridSetting, WidthMode } from './image-grid.model';
 
@@ -28,6 +28,14 @@ export class ImageGridComponent {
     get images(): Image[] {
         return this._images;
     }
+
+    @Output()
+    public imageClicked = new EventEmitter();
+
+    onClick(event: MouseEvent, imageUrl: number) {
+        this.imageClicked.emit({ 'event': event, 'imageUrl': imageUrl });
+    }
+
 
     constructor(private elementRef: ElementRef) {
         this.containerWidth = elementRef.nativeElement.parentNode.clientWidth;

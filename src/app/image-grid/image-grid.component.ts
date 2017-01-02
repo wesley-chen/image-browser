@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef } from '@angular/core';
+import { Component, Input, ElementRef, HostListener } from '@angular/core';
 import { Image } from '../model';
 import { ImageGridSetting, WidthMode } from './image-grid.model';
 
@@ -80,6 +80,7 @@ export class ImageGridComponent {
         this.setting.widthMode = widthMode;
     };
 
+    @HostListener('window:keydown', ['$event'])
     onKey(event: KeyboardEvent) { // with type info
         if (event.keyCode == 32) {// space 
             this.moveNext();
@@ -109,7 +110,7 @@ export class ImageGridComponent {
         this.currentIdx = index;
         this.currentImage = img;
         if (scroll && (index != -1)) {
-            //$('html, body').animate({ scrollTop: $("#imgbox-" + index).offset().top - 30 }, 200);
+            $('html, body').animate({ scrollTop: $("#imgbox-" + index).offset().top - 60 }, 200);
         }
         // console.log(index);
     }

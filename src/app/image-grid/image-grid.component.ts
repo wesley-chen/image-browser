@@ -86,6 +86,6 @@ export class ImageGridComponent {
         if (scroll && (index != -1)) {
             //$('html, body').animate({ scrollTop: $("#imgbox-" + index).offset().top - 30 }, 200);
         }
-        console.log(index);
+        // console.log(index);
     }
 }

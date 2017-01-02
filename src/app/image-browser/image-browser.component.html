@@ -1,21 +1,27 @@
-<div class="container">
-    <div class="row">
-        <ol class="breadcrumb">
-            <li *ngFor="let parent of tree.parents"><button type="button" class="btn btn-link" (click)="goTo(parent.path)">{{parent.name}}</button></li>
-            <li>
-                <button type="button" class="btn btn-link" (click)="goTo(tree.current.path)">{{tree.current.name}}</button>
-            </li>
-        </ol>
+<nav class="navbar navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="row">
+            <ol class="breadcrumb">
+                <li *ngFor="let parent of tree.parents"><button type="button" class="btn btn-link" (click)="goTo(parent.path)">{{parent.name}}</button></li>
+                <li>
+                    <button type="button" class="btn btn-link" (click)="goTo(tree.current.path)">{{tree.current.name}}</button>
+                </li>
+            </ol>
+        </div>
     </div>
+</nav>
 
+<div class="container-fluid">
     <div class="row">
-        <ul class="list-group col-md-3">
-            <li class="list-group-item" *ngFor="let child of tree.childFolders">
-                <button type="button" class="btn btn-link" (click)="goTo(child.path)">{{child.name}}</button>
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-9">
-        <tp-image-grid [images]="tree.images" [setting]="imageGridSetting"></tp-image-grid>
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li *ngFor="let child of tree.childFolders">
+                    <a href="#" (click)="goTo(child.path)">{{child.name}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-md-10 main">
+            <tp-image-grid [images]="tree.images" [setting]="imageGridSetting"></tp-image-grid>
+        </div>
     </div>
 </div>

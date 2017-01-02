@@ -20,8 +20,13 @@
                 </li>
             </ul>
         </div>
-        <div class="col-sm-9 col-md-10 main">
+        <div class="col-sm-7 col-md-9 main">
             <tp-image-grid [images]="tree.images" [setting]="imageGridSetting"></tp-image-grid>
+        </div>
+        <div class="col-sm-2 col-md-1 container-bar">
+            <div *ngFor="let container of containers">
+                <tp-image-container [container]="container"></tp-image-container>
+            </div>
         </div>
     </div>
 </div>

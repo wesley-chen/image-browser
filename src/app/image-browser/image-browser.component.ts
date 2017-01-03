@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FileSystemService } from '../services/file-system.service';
-import { Image, FileModel, FolderTree, Action } from '../model';
+import { Image, ImageList, FileModel, FolderTree, Action, Command } from '../model';
 import { ImageGridSetting, WidthMode } from '../image-grid';
 import { ImageContainer } from '../image-container';
 
@@ -14,17 +14,37 @@ export class ImageBrowserComponent {
     rootPath: string = "E:\图片";
     tree: FolderTree;
     imageGridSetting: ImageGridSetting = new ImageGridSetting(WidthMode.Middle, true);
-    containers: ImageContainer[] = [];
 
-    constructor(private fileSytemService: FileSystemService) {
-        let c = this.creaeteDeletedContainer()
-        this.containers.push(c);
+    activeContainer: ImageContainer
+    containers: ImageContainer[];
+
+    constructor(private fileSytemService: FileSystemService) { }
+
+    initContainers(images: Image[]) {
+        this.activeContainer = this.creaeteMainContainer(images);
+        this.containers = [];
+        this.containers.push(this.activeContainer);
+        this.containers.push(this.creaeteDeletedContainer());
+    }
+
+    creaeteMainContainer(images: Image[]): ImageContainer {
+
+        const PATH = require('path');
+        let icon = require('../../assets/images/folder0.png');
+
+        // Added container for "Main" image
+        let mainContainer = new ImageContainer();
+        mainContainer.name = "Main";
+        mainContainer.iconUrl = icon;
+        mainContainer.images = new ImageList(images);
+
+        return mainContainer;
     }
 
     creaeteDeletedContainer(): ImageContainer {
 
         const PATH = require('path');
-        let icon = require('../../assets/images/folder0.png');
+        let icon = require('../../assets/images/folder1.png');
 
         // Added container for "Deleted" image
         let deletedContainer = new ImageContainer();
@@ -45,30 +65,12 @@ export class ImageBrowserComponent {
         return deletedContainer;
     }
 
-    onImageClicked(msg: any) {
-
-        let event: MouseEvent = msg.event;
-        let imageUrl: string = msg.imageUrl;
-
-        // Find image
-        let foundImg: Image = null;
-        for (let img of this.tree.images) {
-            if (img.url == imageUrl) {
-                foundImg = img;
-                break;
-            }
-        }
-
-        let action = new Action();
-        action.isClicked = true;
-        action.ctrlKey = event.ctrlKey;
-        action.altKey = event.altKey;
-        action.shiftKey = event.shiftKey;
+    onImageClicked(cmd: Command) {
 
         // Process by containers
         for (let container of this.containers) {
-            let handled = container.handleAction(action, foundImg);
-            if(handled){
+            let handled = container.execute(cmd);
+            if (handled) {
                 break;
             }
         }
@@ -76,9 +78,11 @@ export class ImageBrowserComponent {
 
     ngOnInit(): void {
         this.tree = this.fileSytemService.buildFolderTree(this.rootPath);
+        this.initContainers(this.tree.images);
     }
 
     goTo(filePath: string) {
         this.tree = this.fileSytemService.buildFolderTree(filePath);
+        this.initContainers(this.tree.images);
     }
 }

@@ -1,4 +1,4 @@
-import { Image, Action } from '../model';
+import { Image, ImageList, Action, Command } from '../model';
 
 export class ImageContainer {
 
@@ -9,27 +9,45 @@ export class ImageContainer {
     bindedActions: Action[] = [];
 
     // Data
-    images: Image[] = [];
+    images: ImageList = new ImageList([]);
 
-    handleAction(action: Action, image: Image): boolean {
+    lastCommand: Command;
 
-        let matched = false;
+    execute(cmd: Command): boolean {
+
+        let canHandle = false;
         for (let cur of this.bindedActions) {
-            if (cur.equals(action)) {
-                matched = true;
+            if (cur.equals(cmd.action)) {
+                canHandle = true;
                 break;
             }
         }
 
         // Handle this action
-        if (matched) {
-            this.images.push(image);
+        if (canHandle) {
+
+            if (!this.images.contains(cmd.targetImage)) {
+                this.images.add(cmd.targetImage);
+            }
+
+            // Remove from original
+            cmd.originalImageList.remove(cmd.targetImage);
+
+            this.lastCommand = cmd;
         }
 
-        return matched;
+        return canHandle;
     }
 
     undo() {
-        this.images.pop();
+
+        if (this.lastCommand) {
+
+            let image = this.lastCommand.targetImage;
+            let index = this.lastCommand.originalImageIndex;
+            this.lastCommand.originalImageList.insert(index, image);
+
+            this.images.remove(image);
+        }
     }
 }

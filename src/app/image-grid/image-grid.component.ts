@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ElementRef, HostListener } from '@angular/core';
-import { Image } from '../model';
+import { Image, ImageList, Action, Command } from '../model';
 import { ImageGridSetting, WidthMode } from './image-grid.model';
 
 @Component({
@@ -8,7 +8,7 @@ import { ImageGridSetting, WidthMode } from './image-grid.model';
 })
 export class ImageGridComponent {
 
-    private _images: Image[] = [];
+    private imageList: ImageList;
 
     @Input()
     setting: ImageGridSetting;
@@ -20,20 +20,31 @@ export class ImageGridComponent {
     currentImage: Image = null;
 
     @Input()
-    set images(images: Image[]) {
-        this._images = images;
+    set images(images: ImageList) {
+        this.imageList = images;
         this.refresh();
     }
 
-    get images(): Image[] {
-        return this._images;
+    get images(): ImageList {
+        return this.imageList;
     }
 
     @Output()
     public imageClicked = new EventEmitter();
 
-    onClick(event: MouseEvent, imageUrl: number) {
-        this.imageClicked.emit({ 'event': event, 'imageUrl': imageUrl });
+    onClick(event: MouseEvent, image: Image) {
+
+        let action = new Action();
+        action.isClicked = true;
+        action.ctrlKey = event.ctrlKey;
+        action.altKey = event.altKey;
+        action.shiftKey = event.shiftKey;
+
+        let index = this.imageList.indexOf(image);
+
+        let command = new Command(action, image, this.imageList, index);
+
+        this.imageClicked.emit(command);
     }
 
 
@@ -72,7 +83,7 @@ export class ImageGridComponent {
 
         width = width - 10; //remove paddings
 
-        for (let img of this.images) {
+        for (let img of this.imageList.listAll()) {
             var imageRate = width / Math.max(img.width, img.height, 1);
             if (widthMode == WidthMode.Percent100 || imageRate > 1) {
                 imageRate = 1;
@@ -97,16 +108,18 @@ export class ImageGridComponent {
 
     moveNext() {
 
-        if (!this.images) {
+        let images = this.imageList.listAll();
+
+        if (!images) {
             return;
         }
 
         var startIdx = this.currentIdx;
-        if (startIdx >= this.images.length - 1) {
+        if (startIdx >= images.length - 1) {
             startIdx = -1;
         }
 
-        for (var i = startIdx + 1; i < this.images.length; i++) {
+        for (var i = startIdx + 1; i < images.length; i++) {
             if (this.images[i].visible) {
                 this.moveTo(this.images[i], i, true);
                 break;

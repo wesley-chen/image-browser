@@ -17,11 +17,11 @@
 
 <div class="container-fluid" id="img-container">
     <div class="row">
-        <ng-container *ngFor="let img of images; let idx = index;">
+        <ng-container *ngFor="let img of images.listAll(); let idx = index;">
             <div id="imgbox-{{idx}}" class="imgbox" *ngIf="img.visible" (mouseenter)="moveTo(img, idx, false)" [ngClass]="{'imgbox-focus': (img == currentImage)}"
                 [ngStyle]="boxStyle">
                 <div>
-                    <img src="{{img.url}}" [ngStyle]="img.imgStyle" (click)='onClick($event, img.url)'>
+                    <img src="{{img.url}}" [ngStyle]="img.imgStyle" (click)='onClick($event, img)'>
                     <div class="caption">
                         <p *ngIf="setting.showCaption">{{img.fileName}}</p>
                     </div>

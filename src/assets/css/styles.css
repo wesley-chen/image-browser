@@ -17,9 +17,9 @@ body {
 
 /* Sidebar navigation */
 .nav-sidebar {
-  margin-right: -21px; /* 20px padding + 1px border */
+  margin-right: 0px; /* 20px padding + 1px border */
   margin-bottom: 20px;
-  margin-left: -20px;
+  margin-left: 0px;
 }
 
 .nav-sidebar > li > a {
@@ -31,6 +31,50 @@ body {
 .nav-sidebar > a:focus {
   color: #fff;
   background-color: #428bca;
+}
+
+.container {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 100px;
+  text-align: center;
+}
+
+.container a {
+  display: block;
+  padding-top: 30px;
+}
+
+.container .active > a,
+.container a:hover,
+.container a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+.container img {
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container p {
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a.container-link > .badge {
+    position: relative;
+    top: -50px;
+    left:-50px;
 }
 
 
@@ -71,20 +115,4 @@ body {
 
 .imgbox-focus > div > img {
    box-shadow: 0 1px 2px #2878D4;
-}
-
-
-.container-bar {
-  width: 60px;
-}
-
-.image-container {
-  margin-left: 20px;
-  margin-right: 20px;
-  width: 100px;
-}
-
-.container-bar img {
-  width: 50px;
-  height: 50px;
 }

@@ -76,6 +76,12 @@ export class ImageBrowserComponent {
         }
     }
 
+    onContainerTabClicked(clickedContainer: ImageContainer) {
+        if (this.activeContainer != clickedContainer) {
+            this.activeContainer = clickedContainer;
+        }
+    }
+
     ngOnInit(): void {
         this.tree = this.fileSytemService.buildFolderTree(this.rootPath);
         this.initContainers(this.tree.images);

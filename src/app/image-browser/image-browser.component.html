@@ -30,7 +30,7 @@
                 <ul class="nav nav-sidebar">
                     <li *ngFor="let container of containers">
                         <div class="container">
-                            <tp-image-container [container]="container"></tp-image-container>
+                            <tp-image-container [container]="container" (tabClicked)="onContainerTabClicked($event)"></tp-image-container>
                         </div>
                     </li>
                 </ul>

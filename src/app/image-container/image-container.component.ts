@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ImageContainer } from './image-container.model';
 
 @Component({
@@ -9,5 +9,12 @@ export class ImageContainerComponent {
 
     @Input()
     container: ImageContainer;
+
+    @Output()
+    public tabClicked = new EventEmitter();
+
+    onClickTab(event: MouseEvent) {
+        this.tabClicked.emit(this.container);
+    }
 
 }

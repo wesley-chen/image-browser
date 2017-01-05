@@ -32,13 +32,19 @@ export class ImageGridComponent {
     @Output()
     public imageClicked = new EventEmitter();
 
-    onClick(event: MouseEvent, image: Image) {
+    onClick(event: MouseEvent, image: Image, isDoubleClick: boolean) {
+
+        //TODO: double click doesn't work when bind click and double click on the same element
 
         let action = new Action();
-        action.isClicked = true;
         action.ctrlKey = event.ctrlKey;
         action.altKey = event.altKey;
         action.shiftKey = event.shiftKey;
+        if (isDoubleClick) {
+            action.isDoubleClicked = true;
+        } else {
+            action.isClicked = true;
+        }
 
         let index = this.imageList.indexOf(image);
 

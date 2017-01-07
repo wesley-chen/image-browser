@@ -1,5 +1,7 @@
-<a class="container-link" href="#" (click)='onClickTab($event)'>
-    <img src="{{container.iconUrl}}" />
-    <span class="badge pull-right">{{container.images.size()}}</span>
-    <p>{{container.name}}</p>
-</a>
+<div class="image-container">
+    <a class="container-link" href="#" (click)='onClickTab($event)'>
+        <img src="{{container.iconUrl}}" />
+        <p>{{container.name}}</p>
+        <span class="badge">{{container.images.size()}}</span>
+    </a>
+</div>

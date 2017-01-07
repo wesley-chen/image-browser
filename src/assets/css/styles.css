@@ -26,14 +26,39 @@ body {
   padding-right: 20px;
   padding-left: 20px;
 }
-.nav-sidebar > .active > a,
-.nav-sidebar > a:hover,
-.nav-sidebar > a:focus {
+.nav-sidebar .active > a,
+.nav-sidebar a:hover,
+.nav-sidebar a:focus {
   color: #fff;
   background-color: #428bca;
 }
 
-.container {
+.folder-breadcrumb{
+  margin-bottom: 0px;
+}
+
+.folder-tree {
+  width:200px;
+  padding-left: 15px;
+}
+
+.container-bar {
+  width:100px;
+  float:right;
+}
+
+.container-bar-fixed-side {
+  position: fixed;
+  height: 100vh;
+  width: inherit;
+  overflow: auto;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-radius: 0;
+  right: 0px;
+}
+
+.image-container {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -43,19 +68,19 @@ body {
   text-align: center;
 }
 
-.container a {
+.image-container a {
   display: block;
-  padding-top: 30px;
+  padding-top: 15px;
 }
 
-.container .active > a,
-.container a:hover,
-.container a:focus {
+.image-container .active > a,
+.image-container a:hover,
+.image-container a:focus {
   color: #fff;
   background-color: #428bca;
 }
 
-.container img {
+.image-container img {
   width: 50px;
   height: 50px;
   display: block;
@@ -63,9 +88,8 @@ body {
   margin-right: auto;
 }
 
-.container p {
+.image-container p {
   width: 50px;
-  height: 50px;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -73,8 +97,8 @@ body {
 
 a.container-link > .badge {
     position: relative;
-    top: -50px;
-    left:-50px;
+    top: -80px;
+    left:20px;
 }
 
 
@@ -82,16 +106,13 @@ a.container-link > .badge {
  * Main content
  */
 .main {
-  padding: 20px;
+  padding: 0px;
+  margin-left: 200px;
+  margin-right:100px; 
 }
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px;
-    padding-left: 40px;
-  }
-}
-.main .page-header {
-  margin-top: 0;
+
+.padding-fixed{
+   padding:0px;
 }
 
 .imgbox {

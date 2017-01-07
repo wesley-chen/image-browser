@@ -29,9 +29,12 @@ module.exports = {
         loader: 'html'
       },
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+        test: /\.(png|jpe?g|gif|ico)$/,
         loader: 'file?name=assets/[name].[hash].[ext]'
       },
+
+      { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/, loader: 'file-loader' },
+
       {
         test: /\.css$/,
         exclude: helpers.root('src', 'app'),

@@ -3,6 +3,7 @@ import { FileSystemService } from '../services/file-system.service';
 import { Image, ImageList, FileModel, FolderTree, Action, Command } from '../model';
 import { ImageGridSetting, WidthMode } from '../image-grid';
 import { ImageContainer } from '../image-container';
+const {ipcRenderer} = require('electron')
 
 @Component({
     selector: 'tp-image-browser',
@@ -15,6 +16,7 @@ export class ImageBrowserComponent {
     tree: FolderTree;
     imageGridSetting: ImageGridSetting = new ImageGridSetting(WidthMode.Middle, true);
 
+    isFullScreenMode: boolean = false;
     activeContainer: ImageContainer
     containers: ImageContainer[];
 
@@ -90,5 +92,20 @@ export class ImageBrowserComponent {
     goTo(filePath: string) {
         this.tree = this.fileSytemService.buildFolderTree(filePath);
         this.initContainers(this.tree.images);
+    }
+
+    /** Windows controls behaviors*/
+    toggleFullScreen() {
+        if (this.isFullScreenMode) {
+            ipcRenderer.send('turn-off-full-screen-mode');
+        } else {
+            ipcRenderer.send('turn-on-full-screen-mode');
+        }
+
+        this.isFullScreenMode = !this.isFullScreenMode;
+    }
+
+    closeWindow() {
+        ipcRenderer.send('close-main-window');
     }
 }

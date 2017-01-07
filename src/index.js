@@ -1,9 +1,11 @@
 const electron = require('electron');
 const Path = require('path');
+
 // Module to control application life.
-const {app, ipcMain} = electron;
+const {app, ipcMain, globalShortcut} = electron;
 // Module to create native browser window.
 const {BrowserWindow} = electron;
+
 
 let client;
 if (process.env.ENV !== 'production') {
@@ -25,16 +27,19 @@ function createWindow() {
 
   // Create the browser window.
   win = new BrowserWindow({
-    width: 1624, height: 1024,
-    minWidth: 800, minHeight: 600,
-    icon: icon
+    icon: icon,
+    frame: false,
+    width: 1281, height: 800, minWidth: 1281, minHeight: 800
   });
   win.setMenu(null);
+
 
   // and load the index.html of the app.
   win.loadURL(`file://${__dirname}/index.html`);
   console.log(`loading file://${__dirname}/index.html`);
-  win.webContents.openDevTools();
+  //win.show();
+  //win.maximize();
+  //win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -42,6 +47,10 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null;
+  });
+
+  globalShortcut.register('ctrl+d', function () {
+    win.webContents.openDevTools();
   });
 
   if (client) {
@@ -74,10 +83,15 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg)  // prints "ping"
-  event.sender.send('asynchronous-reply', 'pong')
-})
+// Event communication
+ipcMain.on('close-main-window', function () {
+  app.quit();
+});
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+ipcMain.on('turn-on-full-screen-mode', function () {
+  win.setFullScreen(true);
+});
+
+ipcMain.on('turn-off-full-screen-mode', function () {
+  win.setFullScreen(false);
+});

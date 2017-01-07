@@ -4,7 +4,7 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-  padding-top: 50px;
+  padding-top: 75px;
 }
 
 /*
@@ -14,6 +14,16 @@ body {
 .navbar-fixed-top {
   border: 0;
 }
+
+.window-bar {
+   height: 25px;
+   background-color: #E09938;
+}
+
+.window-bar-control {
+   margin-right: 15px; 
+}
+
 
 /* Sidebar navigation */
 .nav-sidebar {
@@ -26,6 +36,7 @@ body {
   padding-right: 20px;
   padding-left: 20px;
 }
+
 .nav-sidebar .active > a,
 .nav-sidebar a:hover,
 .nav-sidebar a:focus {
@@ -33,15 +44,22 @@ body {
   background-color: #428bca;
 }
 
-.folder-breadcrumb{
+.folder-breadcrumb {
   margin-bottom: 0px;
 }
 
+/* folder-tree navigation */
 .folder-tree {
   width:200px;
   padding-left: 15px;
 }
 
+.folder-tree-fullscreen {
+   width: 0px;
+}
+
+
+/* container-bar navigation */
 .container-bar {
   width:100px;
   float:right;
@@ -108,6 +126,12 @@ a.container-link > .badge {
 .main {
   padding: 0px;
   margin-left: 200px;
+  margin-right:100px; 
+}
+
+.main-fullscreen {
+  padding: 0px;
+  margin-left: 0px;
   margin-right:100px; 
 }
 

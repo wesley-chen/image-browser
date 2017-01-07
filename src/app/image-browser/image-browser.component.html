@@ -1,5 +1,16 @@
 <nav class="navbar navbar-fixed-top">
     <div class="container-fluid">
+        <div class="row window-bar">
+            <ul class="nav navbar-nav navbar-right">
+                <li [ngSwitch]="isFullScreenMode">
+                    <button *ngSwitchCase="true" type="button" class="btn btn-default btn-xs" (click)="toggleFullScreen()"><i class="fa fa-window-restore" aria-hidden="true"></i> </button>
+                    <button *ngSwitchDefault type="button" class="btn btn-default btn-xs" (click)="toggleFullScreen()"><i class="fa fa-arrows-alt" aria-hidden="true"></i> </button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-default btn-xs window-bar-control" (click)="closeWindow()"><i class="fa fa-close" aria-hidden="true"></i> </button>
+                </li>
+            </ul>
+        </div>
         <div class="row">
             <ol class="breadcrumb folder-breadcrumb">
                 <li *ngFor="let parent of tree.parents"><button type="button" class="btn btn-link" (click)="goTo(parent.path)">{{parent.name}}</button></li>
@@ -14,7 +25,7 @@
 <div class="container-fluid padding-fixed">
     <div class="row-fluid">
 
-        <div class="folder-tree">
+        <div [ngClass]="{'folder-tree': !isFullScreenMode, 'folder-tree-fullscreen': isFullScreenMode}">
             <nav class="navbar navbar-default navbar-fixed-side">
                 <ul class="nav nav-sidebar">
                     <li *ngFor="let child of tree.childFolders">
@@ -34,7 +45,7 @@
             </nav>
         </div>
 
-        <div class="main">
+        <div [ngClass]="{'main': !isFullScreenMode, 'main-fullscreen': isFullScreenMode}">
             <div class="container-fluid">
                 <tp-image-grid [images]="activeContainer.images" [setting]="imageGridSetting" (imageClicked)="onImageClicked($event)"></tp-image-grid>
             </div>

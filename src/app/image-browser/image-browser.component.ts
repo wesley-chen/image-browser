@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FileSystemService } from '../services/file-system.service';
 import { Image, ImageList, FileModel, FolderTree, Action, Command } from '../model';
 import { ImageGridSetting, WidthMode } from '../image-grid';
@@ -95,6 +95,14 @@ export class ImageBrowserComponent {
     }
 
     /** Windows controls behaviors*/
+    @HostListener('window:keydown', ['$event'])
+    onKeyDown(event: KeyboardEvent) {
+        if ((event.ctrlKey == true && event.keyCode == 70)  // "Ctr\ + F"
+            || (event.keyCode == 122)) { // "F11"
+            this.toggleFullScreen();
+        }
+    }
+
     toggleFullScreen() {
         if (this.isFullScreenMode) {
             ipcRenderer.send('turn-off-full-screen-mode');

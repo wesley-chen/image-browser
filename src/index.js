@@ -53,6 +53,10 @@ function createWindow() {
     win.webContents.openDevTools();
   });
 
+  globalShortcut.register('ctrl+r', function () {
+    win.reload();
+  });
+
   if (client) {
     // Use electron-connect to reload page when source changes
     client.create(win, {

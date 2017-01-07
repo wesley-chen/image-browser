@@ -2,9 +2,13 @@
  * Base structure
  */
 
-/* Move down content because we have a fixed navbar that is 50px tall */
-body {
+/* Move down content because we have a fixed navbar that is 75px tall */
+.image-browser {
   padding-top: 75px;
+}
+
+.image-browser-fullscreen {
+   padding:0px;
 }
 
 /*
@@ -24,6 +28,13 @@ body {
    margin-right: 15px; 
 }
 
+.main{
+   padding:0px;
+}
+
+.main-fullscreen {
+   padding:0px;
+}
 
 /* Sidebar navigation */
 .nav-sidebar {
@@ -46,6 +57,11 @@ body {
 
 .folder-breadcrumb {
   margin-bottom: 0px;
+}
+
+.folder-breadcrumb-fullscreen {
+  display: none;
+  height: 0px;
 }
 
 /* folder-tree navigation */
@@ -119,24 +135,23 @@ a.container-link > .badge {
     left:20px;
 }
 
-
 /*
  * Main content
  */
-.main {
+.image-grid-panel {
   padding: 0px;
   margin-left: 200px;
   margin-right:100px; 
 }
 
-.main-fullscreen {
+.image-grid-panel-fullscreen {
   padding: 0px;
   margin-left: 0px;
   margin-right:100px; 
 }
 
-.padding-fixed{
-   padding:0px;
+#grid-bar {
+  padding-top: 5px;
 }
 
 .imgbox {

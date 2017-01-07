@@ -19,6 +19,9 @@
   border: 0;
 }
 
+/**
+ * The first toolbar
+ */
 .window-bar {
    height: 25px;
    background-color: #E09938;
@@ -28,6 +31,16 @@
    margin-right: 15px; 
 }
 
+/**
+ * The second toolbar
+ */
+.folder-breadcrumb {
+  margin-bottom: 0px;
+}
+
+/**
+ * The main panel under toolbars
+ */
 .main{
    padding:0px;
 }
@@ -55,19 +68,21 @@
   background-color: #428bca;
 }
 
-.folder-breadcrumb {
-  margin-bottom: 0px;
-}
-
-.folder-breadcrumb-fullscreen {
-  display: none;
-  height: 0px;
+.navbar-fixed-side {
+  position: fixed;
+  height: 100vh;
+  width: inherit;
+  overflow: auto;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-radius: 0;		
 }
 
 /* folder-tree navigation */
 .folder-tree {
   width:200px;
   padding-left: 15px;
+  margin: 0 -15px;
 }
 
 .folder-tree-fullscreen {
@@ -81,16 +96,6 @@
   float:right;
 }
 
-.container-bar-fixed-side {
-  position: fixed;
-  height: 100vh;
-  width: inherit;
-  overflow: auto;
-  border-top-width: 0;
-  border-bottom-width: 0;
-  border-radius: 0;
-  right: 0px;
-}
 
 .image-container {
   display: block;
@@ -136,7 +141,7 @@ a.container-link > .badge {
 }
 
 /*
- * Main content
+ * Image grid (center)
  */
 .image-grid-panel {
   padding: 0px;

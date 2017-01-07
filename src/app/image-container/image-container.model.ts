@@ -11,6 +11,9 @@ export class ImageContainer {
     // Data
     images: ImageList = new ImageList([]);
 
+    //Key: image, Value: the original command that add this image to this container
+    commandMap: Map<Image, Command> = new Map<Image, Command>();
+
     lastCommand: Command;
 
     execute(cmd: Command): boolean {
@@ -25,15 +28,22 @@ export class ImageContainer {
 
         // Handle this action
         if (canHandle) {
-
             if (!this.images.contains(cmd.targetImage)) {
-                this.images.add(cmd.targetImage);
+                let img = cmd.targetImage;
+                this.images.add(img);
+                // Remove from original
+                cmd.originalImageList.remove(img);
+                this.commandMap.set(img, cmd);
+                this.lastCommand = cmd;
+            } else { // click on this container
+                // Reverse the image to its original container.
+                let img = cmd.targetImage;
+                let originalCmd = this.commandMap.get(img);
+                originalCmd.originalImageList.insert(originalCmd.originalImageIndex, img);
+
+                this.images.remove(img);
+                this.commandMap.delete(img);
             }
-
-            // Remove from original
-            cmd.originalImageList.remove(cmd.targetImage);
-
-            this.lastCommand = cmd;
         }
 
         return canHandle;

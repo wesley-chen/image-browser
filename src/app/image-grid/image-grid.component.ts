@@ -46,9 +46,7 @@ export class ImageGridComponent {
             action.isClicked = true;
         }
 
-        let index = this.imageList.indexOf(image);
-
-        let command = new Command(action, image, this.imageList, index);
+        let command = new Command(action, image, this.imageList, null);
 
         this.imageClicked.emit(command);
     }

@@ -28,36 +28,45 @@ export class ImageContainer {
 
         // Handle this action
         if (canHandle) {
-            if (!this.images.contains(cmd.targetImage)) {
-                let img = cmd.targetImage;
-                this.images.add(img);
-                // Remove from original
-                cmd.originalImageList.remove(img);
+            if (!this.images.contains(cmd.image)) {
+                let img = cmd.image;
+                this.switchImage(img, cmd.fromImageList, this.images)
                 this.commandMap.set(img, cmd);
+
                 this.lastCommand = cmd;
+                this.lastCommand.toImageList = this.images;
+
             } else { // click on this container
                 // Reverse the image to its original container.
-                let img = cmd.targetImage;
+                let img = cmd.image;
                 let originalCmd = this.commandMap.get(img);
-                originalCmd.originalImageList.insert(originalCmd.originalImageIndex, img);
-
-                this.images.remove(img);
+                this.switchImage(img, this.images, originalCmd.fromImageList)
                 this.commandMap.delete(img);
+
+                this.lastCommand = cmd;
+                this.lastCommand.fromImageList = this.images;
+                this.lastCommand.toImageList = originalCmd.fromImageList;
             }
         }
 
         return canHandle;
     }
 
+    switchImage(img: Image, fromImageList: ImageList, toImageList: ImageList) {
+        if (!toImageList.contains(img)) {
+            toImageList.add(img);
+        }
+        fromImageList.remove(img);
+    }
+
     undo() {
 
         if (this.lastCommand) {
+            let cmd = this.lastCommand;
+            this.lastCommand = null;
 
-            let image = this.lastCommand.targetImage;
-            let index = this.lastCommand.originalImageIndex;
-            this.lastCommand.originalImageList.insert(index, image);
-
-            this.images.remove(image);
+            let image = cmd.image;
+            this.switchImage(image, cmd.toImageList, cmd.fromImageList);
         }
     }
 }

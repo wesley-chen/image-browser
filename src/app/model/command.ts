@@ -4,6 +4,6 @@ import { ImageList } from './image-list';
 
 export class Command {
 
-    constructor(public action: Action, public targetImage: Image, public originalImageList: ImageList, public originalImageIndex: number) { };
+    constructor(public action: Action, public image: Image, public fromImageList: ImageList, public toImageList: ImageList) { };
 
 }

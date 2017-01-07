@@ -1,8 +1,8 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChildren, QueryList } from '@angular/core';
 import { FileSystemService } from '../services/file-system.service';
 import { Image, ImageList, FileModel, FolderTree, Action, Command } from '../model';
 import { ImageGridSetting, WidthMode } from '../image-grid';
-import { ImageContainer } from '../image-container';
+import { ImageContainer, ImageContainerComponent } from '../image-container';
 const {ipcRenderer} = require('electron')
 
 @Component({
@@ -19,6 +19,9 @@ export class ImageBrowserComponent {
     isFullScreenMode: boolean = false;
     activeContainer: ImageContainer
     containers: ImageContainer[];
+
+    @ViewChildren(ImageContainerComponent)
+    containerComponents: QueryList<ImageContainerComponent>;
 
     constructor(private fileSytemService: FileSystemService) { }
 
@@ -73,6 +76,11 @@ export class ImageBrowserComponent {
         for (let container of this.containers) {
             let handled = container.execute(cmd);
             if (handled) {
+                // Show notification
+                let component = this.containerComponents.find(function (c) {
+                    return (c.container == container);
+                });
+                component.showNotification();
                 break;
             }
         }

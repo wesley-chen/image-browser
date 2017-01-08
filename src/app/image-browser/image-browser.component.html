@@ -43,6 +43,11 @@
                             <tp-image-container [container]="container " (tabClicked)="onContainerTabClicked($event) "></tp-image-container>
                         </li>
                     </ul>
+                    <ul class="nav nav-sidebar ">
+                        <li *ngFor="let cmd of activeContainer.commands ">
+                            <button type="button " class="btn btn-default" (click)="cmd.execute(activeContainer.images) ">{{cmd.name}}</button>
+                        </li>
+                    </ul>
                 </nav>
             </div>
 

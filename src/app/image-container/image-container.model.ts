@@ -17,6 +17,7 @@ export class ImageContainer {
     //Key: image, Value: the original event that add this image to this container
     eventMap: Map<Image, ImageEvent> = new Map<Image, ImageEvent>();
 
+    commands: ICommand[] = [];
 
     /**
      * If the binding actions of this container contains the given action
@@ -64,4 +65,12 @@ export class ImageContainer {
         }
         fromImageList.remove(img);
     }
+}
+
+export interface ICommand {
+
+    name: String,
+
+    execute(imageList: ImageList): void
+
 }

@@ -1,8 +1,8 @@
 import { Component, HostListener, ViewChildren, QueryList } from '@angular/core';
-import { FileSystemService } from '../services/file-system.service';
+import { FileSystemService, Logger } from '../services';
 import { Image, ImageList, FileModel, FolderTree, Action, ImageEvent } from '../model';
 import { ImageGridSetting, WidthMode } from '../image-grid';
-import { ImageContainer, ImageContainerComponent } from '../image-container';
+import { ImageContainer, ImageContainerComponent, ICommand } from '../image-container';
 const {ipcRenderer} = require('electron')
 
 @Component({
@@ -12,6 +12,7 @@ const {ipcRenderer} = require('electron')
 })
 export class ImageBrowserComponent {
 
+    readonly logger: Logger = new Logger();
     rootPath: string = "E:\图片";
     tree: FolderTree;
     imageGridSetting: ImageGridSetting = new ImageGridSetting(WidthMode.Middle, true);
@@ -66,6 +67,15 @@ export class ImageBrowserComponent {
         // bind action for double click
         let doubleClickAction = new Action();
         doubleClickAction.isDoubleClicked = true;
+
+        // Add commands
+        let deleteAllCmd: ICommand = {
+            name: "Delete All",
+            execute: (imageList: ImageList) => {
+                this.logger.log("Deleted All: " + imageList);
+            }
+        };
+        deletedContainer.commands.push(deleteAllCmd);
 
         return deletedContainer;
     }

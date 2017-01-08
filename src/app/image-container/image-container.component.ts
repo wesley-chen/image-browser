@@ -23,27 +23,15 @@ export class ImageContainerComponent {
     }
 
     showNotification() {
-        this.lastCommandMessage = this.composeLastCommandMsg();
-        this.notification.show();
-    }
-
-    composeLastCommandMsg(): string {
-        let msg = "";
         let cmd = this.container.lastCommand;
         if (cmd != null) {
-
-            if (cmd.toImageList == this.container.images) {
-                msg = "Add image";
-            } else {
-                msg = "Remove image";
-            }
+            this.lastCommandMessage = "Add image";
+            this.notification.show();
         }
-
-        return msg;
     }
 
     undo() {
+        this.notification.hide();
         this.container.undo();
-        this.showNotification();
     }
 }

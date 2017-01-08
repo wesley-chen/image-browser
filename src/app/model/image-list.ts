@@ -60,4 +60,12 @@ export class ImageList {
 
         return foundImg;
     }
+
+    toString(): string {
+        let msg = "";
+        for (let img of this.items) {
+            msg = msg + img.fileName + ","
+        }
+        return msg;
+    }
 }

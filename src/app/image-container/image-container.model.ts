@@ -1,6 +1,9 @@
 import { Image, ImageList, Action, Command } from '../model';
+import { Logger } from '../services/logger.service';
 
 export class ImageContainer {
+
+    logger: Logger = new Logger();
 
     name: string;
 
@@ -37,15 +40,17 @@ export class ImageContainer {
                 this.lastCommand.toImageList = this.images;
 
             } else { // click on this container
+
                 // Reverse the image to its original container.
                 let img = cmd.image;
                 let originalCmd = this.commandMap.get(img);
-                this.switchImage(img, this.images, originalCmd.fromImageList)
-                this.commandMap.delete(img);
+                if (originalCmd != null) {
+                    this.switchImage(img, this.images, originalCmd.fromImageList)
+                    this.commandMap.delete(img);
 
-                this.lastCommand = cmd;
-                this.lastCommand.fromImageList = this.images;
-                this.lastCommand.toImageList = originalCmd.fromImageList;
+                    // Don't record remove image command for unde 
+                    this.lastCommand = null;
+                }
             }
         }
 
@@ -53,6 +58,17 @@ export class ImageContainer {
     }
 
     switchImage(img: Image, fromImageList: ImageList, toImageList: ImageList) {
+
+        // logging
+        if (this.images == fromImageList) {
+            this.logger.log("Remove image [" + img.fileName + "] from: [" + this.name + "] container.");
+        } else if (this.images == toImageList) {
+            this.logger.log("Add image [" + img.fileName + "] to: [" + this.name + "] container.");
+        } else {
+            this.logger.log("Bug: the image [" + img.fileName + "] is not belong to this container. Switch from: [" + fromImageList + "] to [" + toImageList + "]");
+        }
+
+        // processing
         if (!toImageList.contains(img)) {
             toImageList.add(img);
         }
@@ -66,7 +82,9 @@ export class ImageContainer {
             this.lastCommand = null;
 
             let image = cmd.image;
+            this.logger.log("Undo: " + cmd);
             this.switchImage(image, cmd.toImageList, cmd.fromImageList);
+            this.commandMap.delete(image);
         }
     }
 }

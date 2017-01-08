@@ -1,4 +1,4 @@
-import { Image, ImageList, Action, Command } from '../model';
+import { Image, ImageList, Action, ImageEvent } from '../model';
 import { Logger } from '../services/logger.service';
 
 export class ImageContainer {
@@ -14,8 +14,8 @@ export class ImageContainer {
     // Data
     images: ImageList = new ImageList([]);
 
-    //Key: image, Value: the original command that add this image to this container
-    commandMap: Map<Image, Command> = new Map<Image, Command>();
+    //Key: image, Value: the original event that add this image to this container
+    eventMap: Map<Image, ImageEvent> = new Map<Image, ImageEvent>();
 
 
     /**
@@ -33,17 +33,17 @@ export class ImageContainer {
         return isMatched;
     }
 
-    moveInImage(cmd: Command) {
-        let img = cmd.image;
-        this.switchImage(img, cmd.fromImageList, this.images)
-        this.commandMap.set(img, cmd);
+    moveInImage(event: ImageEvent) {
+        let img = event.image;
+        this.switchImage(img, event.fromImageList, this.images)
+        this.eventMap.set(img, event);
     }
 
     moveBackImage(img: Image) {
-        let originalCmd = this.commandMap.get(img);
-        if (originalCmd != null) {
-            this.switchImage(img, this.images, originalCmd.fromImageList)
-            this.commandMap.delete(img);
+        let originalEvent = this.eventMap.get(img);
+        if (originalEvent != null) {
+            this.switchImage(img, this.images, originalEvent.fromImageList)
+            this.eventMap.delete(img);
         }
     }
 

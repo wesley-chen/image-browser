@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
-import { Image, ImageList, Action, Command } from '../model';
+import { Image, ImageList, Action, ImageEvent } from '../model';
 import { ImageContainer } from './image-container.model';
 
 @Component({
@@ -12,8 +12,6 @@ export class ImageContainerComponent {
     @Input()
     container: ImageContainer;
 
-    lastCommand: Command;
-
     @Output()
     public tabClicked = new EventEmitter();
 
@@ -23,33 +21,33 @@ export class ImageContainerComponent {
         this.tabClicked.emit(this.container);
     }
 
-    execute(cmd: Command): boolean {
+    process(event: ImageEvent): boolean {
 
-        let canHandle = this.container.containAction(cmd.action);
+        let canHandle = this.container.containAction(event.action);
         if (canHandle) {
-            let isThisContainerCommand = (this.container.images == cmd.fromImageList);
-            if (isThisContainerCommand) { // Need move back to original container
-                this.container.moveBackImage(cmd.image);
+            let isThisContainerEvent = (this.container.images == event.fromImageList);
+            if (isThisContainerEvent) { // Need move back to original container
+                this.container.moveBackImage(event.image);
 
                 //Show notification
-                let msg = 'Move image: ' + cmd.image.fileName + " back.";
+                let msg = 'Move image: ' + event.image.fileName + " back.";
 
                 let snackBarRef = this.snackBar.open(msg, null, {
                     duration: 3000,
                 });
 
             } else {
-                this.container.moveInImage(cmd);
+                this.container.moveInImage(event);
 
                 //Show notification
-                let msg = 'Move image: ' + cmd.image.fileName + " into the '" + this.container.name + "' container.";
+                let msg = 'Move image: ' + event.image.fileName + " into the '" + this.container.name + "' container.";
 
                 let snackBarRef = this.snackBar.open(msg, 'Undo', {
                     duration: 3000,
                 });
 
                 snackBarRef.onAction().subscribe(() => { // Handle 'undo'
-                    this.container.moveBackImage(cmd.image);
+                    this.container.moveBackImage(event.image);
                 });
             }
         }

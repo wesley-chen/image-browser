@@ -1,6 +1,6 @@
 import { Component, HostListener, ViewChildren, QueryList } from '@angular/core';
 import { FileSystemService } from '../services/file-system.service';
-import { Image, ImageList, FileModel, FolderTree, Action, Command } from '../model';
+import { Image, ImageList, FileModel, FolderTree, Action, ImageEvent } from '../model';
 import { ImageGridSetting, WidthMode } from '../image-grid';
 import { ImageContainer, ImageContainerComponent } from '../image-container';
 const {ipcRenderer} = require('electron')
@@ -70,13 +70,13 @@ export class ImageBrowserComponent {
         return deletedContainer;
     }
 
-    onImageClicked(cmd: Command) {
+    onImageClicked(event: ImageEvent) {
 
         // Process by containers
         let components = this.containerComponents.toArray();
         for (let c of components) {
 
-            let handled = c.execute(cmd);
+            let handled = c.process(event);
             if (handled) {
                 break;
             }

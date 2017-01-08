@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ElementRef, HostListener } from '@angular/core';
-import { Image, ImageList, Action, Command } from '../model';
+import { Image, ImageList, Action, ImageEvent } from '../model';
 import { ImageGridSetting, WidthMode } from './image-grid.model';
 
 @Component({
@@ -46,9 +46,9 @@ export class ImageGridComponent {
             action.isClicked = true;
         }
 
-        let command = new Command(action, image, this.imageList, null);
+        let imgEvent = new ImageEvent(action, image, this.imageList);
 
-        this.imageClicked.emit(command);
+        this.imageClicked.emit(imgEvent);
     }
 
 

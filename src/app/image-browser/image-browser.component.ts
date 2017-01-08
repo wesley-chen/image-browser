@@ -73,14 +73,11 @@ export class ImageBrowserComponent {
     onImageClicked(cmd: Command) {
 
         // Process by containers
-        for (let container of this.containers) {
-            let handled = container.execute(cmd);
+        let components = this.containerComponents.toArray();
+        for (let c of components) {
+
+            let handled = c.execute(cmd);
             if (handled) {
-                // Show notification
-                let component = this.containerComponents.find(function (c) {
-                    return (c.container == container);
-                });
-                component.showNotification();
                 break;
             }
         }

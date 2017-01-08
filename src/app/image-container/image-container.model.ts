@@ -17,47 +17,37 @@ export class ImageContainer {
     //Key: image, Value: the original command that add this image to this container
     commandMap: Map<Image, Command> = new Map<Image, Command>();
 
-    lastCommand: Command;
 
-    execute(cmd: Command): boolean {
+    /**
+     * If the binding actions of this container contains the given action
+     */
+    containAction(action: Action): boolean {
 
-        let canHandle = false;
+        let isMatched = false;
         for (let cur of this.bindedActions) {
-            if (cur.equals(cmd.action)) {
-                canHandle = true;
+            if (cur.equals(action)) {
+                isMatched = true;
                 break;
             }
         }
-
-        // Handle this action
-        if (canHandle) {
-            if (!this.images.contains(cmd.image)) {
-                let img = cmd.image;
-                this.switchImage(img, cmd.fromImageList, this.images)
-                this.commandMap.set(img, cmd);
-
-                this.lastCommand = cmd;
-                this.lastCommand.toImageList = this.images;
-
-            } else { // click on this container
-
-                // Reverse the image to its original container.
-                let img = cmd.image;
-                let originalCmd = this.commandMap.get(img);
-                if (originalCmd != null) {
-                    this.switchImage(img, this.images, originalCmd.fromImageList)
-                    this.commandMap.delete(img);
-
-                    // Don't record remove image command for unde 
-                    this.lastCommand = null;
-                }
-            }
-        }
-
-        return canHandle;
+        return isMatched;
     }
 
-    switchImage(img: Image, fromImageList: ImageList, toImageList: ImageList) {
+    moveInImage(cmd: Command) {
+        let img = cmd.image;
+        this.switchImage(img, cmd.fromImageList, this.images)
+        this.commandMap.set(img, cmd);
+    }
+
+    moveBackImage(img: Image) {
+        let originalCmd = this.commandMap.get(img);
+        if (originalCmd != null) {
+            this.switchImage(img, this.images, originalCmd.fromImageList)
+            this.commandMap.delete(img);
+        }
+    }
+
+    private switchImage(img: Image, fromImageList: ImageList, toImageList: ImageList) {
 
         // logging
         if (this.images == fromImageList) {
@@ -73,18 +63,5 @@ export class ImageContainer {
             toImageList.add(img);
         }
         fromImageList.remove(img);
-    }
-
-    undo() {
-
-        if (this.lastCommand) {
-            let cmd = this.lastCommand;
-            this.lastCommand = null;
-
-            let image = cmd.image;
-            this.logger.log("Undo: " + cmd);
-            this.switchImage(image, cmd.toImageList, cmd.fromImageList);
-            this.commandMap.delete(image);
-        }
     }
 }

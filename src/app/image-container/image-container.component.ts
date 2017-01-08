@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
+import { Image, ImageList, Action, Command } from '../model';
 import { ImageContainer } from './image-container.model';
 
 @Component({
@@ -11,7 +12,7 @@ export class ImageContainerComponent {
     @Input()
     container: ImageContainer;
 
-    lastCommandMessage: string = "";
+    lastCommand: Command;
 
     @Output()
     public tabClicked = new EventEmitter();
@@ -22,19 +23,37 @@ export class ImageContainerComponent {
         this.tabClicked.emit(this.container);
     }
 
-    showNotification() {
-        let cmd = this.container.lastCommand;
-        if (cmd != null) {
-            this.lastCommandMessage = "Add image";
+    execute(cmd: Command): boolean {
 
-            let snackBarRef = this.snackBar.open('Add image: ' + cmd.image.fileName, 'Undo'
-                , {
+        let canHandle = this.container.containAction(cmd.action);
+        if (canHandle) {
+            let isThisContainerCommand = (this.container.images == cmd.fromImageList);
+            if (isThisContainerCommand) { // Need move back to original container
+                this.container.moveBackImage(cmd.image);
+
+                //Show notification
+                let msg = 'Move image: ' + cmd.image.fileName + " back.";
+
+                let snackBarRef = this.snackBar.open(msg, null, {
                     duration: 3000,
                 });
 
-            snackBarRef.onAction().subscribe(() => {
-                this.container.undo();
-            });
+            } else {
+                this.container.moveInImage(cmd);
+
+                //Show notification
+                let msg = 'Move image: ' + cmd.image.fileName + " into the '" + this.container.name + "' container.";
+
+                let snackBarRef = this.snackBar.open(msg, 'Undo', {
+                    duration: 3000,
+                });
+
+                snackBarRef.onAction().subscribe(() => { // Handle 'undo'
+                    this.container.moveBackImage(cmd.image);
+                });
+            }
         }
+
+        return canHandle;
     }
 }

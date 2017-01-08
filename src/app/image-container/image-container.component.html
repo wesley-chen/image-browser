@@ -1,14 +1,7 @@
-<div class="image-container" [popover]="containerNotification" popoverPlacement="left" [popoverDismissTimeout]="3000">
+<div class="image-container">
     <a class="container-link " href="# " (click)='onClickTab($event)'>
         <img src="{{container.iconUrl}} " />
         <p>{{container.name}}</p>
         <span class="badge ">{{container.images.size()}}</span>
     </a>
 </div>
-
-<popover-content #containerNotification title="{{lastCommandMessage}}">
-    <div *ngIf="(container.lastCommand != null)" class="container-notification">
-        <img src="{{container.lastCommand.image.url}}" />
-        <a href="#" (click)="undo()">Undo</a>
-    </div>
-</popover-content>

@@ -1,7 +1,6 @@
 # IDE
 .history
 .idea
-.vscode
 
 # Build
 node_modules

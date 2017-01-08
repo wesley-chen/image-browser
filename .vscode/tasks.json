@@ -1,0 +1,22 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "0.1.0",
+    "command": "npm",
+    "isShellCommand": true,
+    "showOutput": "always",
+    "suppressTaskName": true,
+    "args": [
+        "run"
+    ],
+    "tasks": [
+        {
+            // Test task, Bind "workbench.action.tasks.test" with Ctrl+F9
+            "taskName": "startElectron",
+            "args": [
+                "start.desktop"
+            ],
+            "isTestCommand": true
+        }
+    ]
+}

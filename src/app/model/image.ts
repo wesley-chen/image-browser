@@ -1,5 +1,6 @@
 export class Image {
     url: string;
+    filePath: string;
     fileName: string;
     fileExt: string;
     width: number;

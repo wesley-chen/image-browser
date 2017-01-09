@@ -72,7 +72,13 @@ export class ImageBrowserComponent {
         let deleteAllCmd: ICommand = {
             name: "Delete All",
             execute: (imageList: ImageList) => {
-                this.logger.log("Deleted All: " + imageList);
+
+                const shell = require('electron').shell;
+                for (let img of imageList.listAll()) {
+                    this.logger.log("Deleting  " + img.filePath);
+                    shell.moveItemToTrash(img.filePath);
+                }
+                imageList.removeAll();
             }
         };
         deletedContainer.commands.push(deleteAllCmd);
@@ -120,12 +126,25 @@ export class ImageBrowserComponent {
 
     toggleFullScreen() {
         if (this.isFullScreenMode) {
+
             ipcRenderer.send('turn-off-full-screen-mode');
         } else {
             ipcRenderer.send('turn-on-full-screen-mode');
         }
 
         this.isFullScreenMode = !this.isFullScreenMode;
+    }
+
+    openDirectory() {
+        var remote = require('electron').remote;
+        var dialog = remote.require('electron').dialog;
+
+        let paths: string[] = dialog.showOpenDialog({
+            properties: ['openDirectory']
+        });
+        if (paths && paths.length > 0) {
+            this.goTo(paths[0]);
+        }
     }
 
     closeWindow() {

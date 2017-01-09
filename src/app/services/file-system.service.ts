@@ -118,13 +118,14 @@ export class FileSystemService {
             let childFile = this.toFile(childPath);
             if (childFile != null && !childFile.isDirectory) {
 
-                let index = this.IMAGE_TYPES.indexOf(childFile.fileExt);
+                let index = this.IMAGE_TYPES.indexOf(childFile.fileExt.toLowerCase());
                 if (index >= 0) {
                     let img = new Image();
                     img.fileName = childFile.name;
                     img.fileExt = childFile.fileExt;
                     img.formatName = childFile.fileExt;
                     img.size = childFile.fileSize;
+                    img.filePath = childFile.path;
                     img.url = URL(childFile.path);
 
                     let dimensions = IMG_SIZE(childPath);

@@ -47,6 +47,10 @@ export class ImageList {
         }
     }
 
+    removeAll(): void {
+        this.items = [];
+    }
+
     findImageByURL(imageUrl: string): Image {
 
         // Find image

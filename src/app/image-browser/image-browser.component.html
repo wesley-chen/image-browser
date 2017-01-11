@@ -1,4 +1,5 @@
-<div [ngClass]="{'image-browser': !isFullScreenMode, 'image-browser-fullscreen': isFullScreenMode}">
+<div [ngClass]="{'image-browser': !isFullScreenMode, 'image-browser-fullscreen': isFullScreenMode}" (dragover)="false" (dragend)="false"
+    (drop)="handleDrop($event)">
     <nav class="navbar navbar-fixed-top" *ngIf="!isFullScreenMode">
         <div class="container-fluid">
             <div class="row window-bar">

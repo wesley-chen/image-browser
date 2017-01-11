@@ -68,6 +68,11 @@ export class FileSystemService {
         return parentFolders;
     }
 
+    getParentFolder(filePath: string): string {
+        const PATH = require('path');
+        return PATH.dirname(filePath);
+    }
+
     /**
      * Return child folders
      */

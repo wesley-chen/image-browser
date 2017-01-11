@@ -115,6 +115,23 @@ export class ImageBrowserComponent {
         this.initContainers(this.tree.images);
     }
 
+    handleDrop(e: DragEvent) {
+        e.preventDefault();
+
+        let files = e.dataTransfer.files;
+        for (let i = 0; i < files.length; i++) {
+            let file = files[i];
+            if (!file.type && file.size % 4096 == 0) {
+                // The file is a folder
+                this.goTo(file.path);
+            } else {
+                // The file is not a folder
+                let parentFolder = this.fileSytemService.getParentFolder(file.path);
+                this.goTo(parentFolder);
+            }
+        }
+    }
+
     /** Windows controls behaviors*/
     @HostListener('window:keydown', ['$event'])
     onKeyDown(event: KeyboardEvent) {

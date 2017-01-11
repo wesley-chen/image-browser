@@ -1,4 +1,6 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ElectronPackager = require("webpack-electron-packager");
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var desktopConfig = require('./webpack.desktop.js');
 var helpers = require('./helpers');
 var path = require('path');
@@ -22,6 +24,21 @@ module.exports = [
         'process.env': {
           'ENV': JSON.stringify(ENV)
         }
+      }),
+
+      new CopyWebpackPlugin([
+        { from: 'src/package.json' }
+      ]),
+
+      new ElectronPackager({
+        dir: "dist",
+        out: 'staging',
+        name: 'tp-image-browser',
+        overwrite: true,
+        asar: true,
+        arch: "ia32",
+        platform: "win32",
+        prune: true
       })
     ]
   }),
@@ -41,11 +58,6 @@ module.exports = [
     plugins: [
       new webpack.NoErrorsPlugin(),
       new webpack.optimize.DedupePlugin(),
-      new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
-        mangle: {
-          keep_fnames: true
-        }
-      }),
       new ExtractTextPlugin('[name].[hash].css'),
       new webpack.DefinePlugin({
         'process.env': {

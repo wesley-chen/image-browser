@@ -1,0 +1,8 @@
+{
+    "name": "ws-image-browser",
+    "version": "0.0.1",
+    "main": "index.js",
+    "description": "Image Browser with Electron and Angular2",
+    "author": "Wesley Chen",
+    "license": "MIT"
+}

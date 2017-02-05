@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -10,7 +11,7 @@ import { ImageContainerComponent } from './image-container';
 
 @NgModule({
   imports: [
-    BrowserModule, MaterialModule.forRoot()
+    BrowserModule, FlexLayoutModule.forRoot(), MaterialModule.forRoot()
   ],
   declarations: [AppComponent, ImageBrowserComponent, ImageGridComponent, ImageContainerComponent],
   bootstrap: [AppComponent]

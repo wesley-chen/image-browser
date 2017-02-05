@@ -8,7 +8,7 @@ const {ipcRenderer} = require('electron')
 @Component({
     selector: 'tp-image-browser',
     providers: [FileSystemService],
-    templateUrl: 'image-browser.component.html'
+    templateUrl: 'image-browser.component.m.html'
 })
 export class ImageBrowserComponent {
 

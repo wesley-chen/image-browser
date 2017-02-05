@@ -1,0 +1,35 @@
+<md-toolbar color="primary">
+    <span>Image Browser</span>
+    <span class="spacer"></span>
+    <md-icon class="toolbar-icon">close</md-icon>
+
+    <md-toolbar-row>
+        <md-nav-list>
+            <a href="#" *ngFor=" let parent of tree.parents " (click)="goTo(parent.path) ">{{parent.name}} </a>
+            <a href="#" (click)="goTo(tree.current.path) ">  {{tree.current.name}} </a>
+        </md-nav-list>
+    </md-toolbar-row>
+</md-toolbar>
+
+
+<md-sidenav-container>
+    <md-sidenav #foldernav mode="side" opened="true">
+        <md-nav-list>
+            <md-list-item *ngFor="let child of tree.childFolders ">
+                <a md-line href="# " (click)="goTo(child.path)">{{ child.name }}</a>
+            </md-list-item>
+        </md-nav-list>
+    </md-sidenav>
+
+    <div class="main-content">
+        <h1>Main</h1>
+    </div>
+
+    <md-sidenav #containerbar mode="side" opened="true" align="end">
+        <md-nav-list>
+            <md-list-item *ngFor="let child of tree.childFolders ">
+                <a md-line href="# " (click)="goTo(child.path) ">{{ child.name }}</a>
+            </md-list-item>
+        </md-nav-list>
+    </md-sidenav>
+</md-sidenav-container>

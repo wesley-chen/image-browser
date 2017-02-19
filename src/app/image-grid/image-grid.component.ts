@@ -4,7 +4,7 @@ import { ImageGridSetting, WidthMode } from './image-grid.model';
 
 @Component({
     selector: 'tp-image-grid',
-    templateUrl: 'image-grid.component.html'
+    templateUrl: 'image-grid.component.m.html'
 })
 export class ImageGridComponent {
 

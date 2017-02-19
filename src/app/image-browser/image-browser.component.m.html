@@ -47,19 +47,7 @@
     </md-sidenav>
 
     <div class="main-content">
-      <md-button-toggle-group #viewSizeOptionGroup="mdButtonToggleGroup">
-        <md-button-toggle value="Small">
-          <md-icon>view_comfy</md-icon>
-        </md-button-toggle>
-        <md-button-toggle value="Middle">
-          <md-icon>view_module</md-icon>
-        </md-button-toggle>
-        <md-button-toggle value="FitWidth">
-          <md-icon>view_stream</md-icon>
-        </md-button-toggle>
-      </md-button-toggle-group>
-
-      <h1>Main</h1>
+      <tp-image-grid [images]="activeContainer.images " [setting]="imageGridSetting " (imageClicked)="onImageClicked($event) "></tp-image-grid>
     </div>
   </md-sidenav-container>
 </div>

@@ -1,8 +1,6 @@
-<md-toolbar color="primary">
+<div id="header">
+  <md-toolbar color="primary">
 
-    <button md-icon-button>
-      <md-icon >menu</md-icon>
-    </button>
     <button md-icon-button>
       <md-icon >folder</md-icon>
     </button>
@@ -11,39 +9,73 @@
     <span>Image Browser</span>
     <span class="spacer"></span>
 
-    <button md-icon-button>
-      <md-icon >view_comfy</md-icon>
-    </button>
-    <button md-icon-button>
-      <md-icon >view_module</md-icon>
-    </button>
-    <button md-icon-button>
-      <md-icon >view_stream</md-icon>
+    <button md-icon-button [mdMenuTriggerFor]="settingMenu">
+      <md-icon >menu</md-icon>
     </button>
 
-    <span class="spacer"></span>
-    <button md-icon-button>
+    <button md-icon-button *ngIf="isFullScreenMode" (click)="toggleFullScreen()">
       <md-icon >fullscreen_exit</md-icon>
     </button>
-    <button md-icon-button>
+    <button md-icon-button *ngIf="!isFullScreenMode" (click)="toggleFullScreen()">
       <md-icon >fullscreen</md-icon>
     </button>
-    <button md-icon-button>
+    <button md-icon-button (click)="closeWindow()">
       <md-icon >close</md-icon>
     </button>
-</md-toolbar>
+  </md-toolbar>
+</div>
 
+<div id="path-toolbar">
+  <md-toolbar>
+    <div *ngFor=" let parent of tree.parents" class="breadcrumb">
+      <button md-button (click)="goTo(parent.path) ">{{parent.name}}</button>
+    </div>
+    <div class="breadcrumb ">
+      <button md-button (click)="goTo(tree.current.path) ">{{tree.current.name}}</button>
+    </div>
+  </md-toolbar>
+</div>
 
-<md-sidenav-container>
+<div id="content">
+  <md-sidenav-container>
     <md-sidenav #foldernav mode="side" opened="true">
-        <md-nav-list>
-            <md-list-item *ngFor="let child of tree.childFolders ">
-                <a md-line href="# " (click)="goTo(child.path)">{{ child.name }}</a>
-            </md-list-item>
-        </md-nav-list>
+      <md-nav-list>
+        <md-list-item *ngFor="let child of tree.childFolders ">
+          <a md-line href="# " (click)="goTo(child.path)">{{ child.name }}</a>
+        </md-list-item>
+      </md-nav-list>
     </md-sidenav>
 
     <div class="main-content">
-        <h1>Main</h1>
+      <md-button-toggle-group #viewSizeOptionGroup="mdButtonToggleGroup">
+        <md-button-toggle value="Small">
+          <md-icon>view_comfy</md-icon>
+        </md-button-toggle>
+        <md-button-toggle value="Middle">
+          <md-icon>view_module</md-icon>
+        </md-button-toggle>
+        <md-button-toggle value="FitWidth">
+          <md-icon>view_stream</md-icon>
+        </md-button-toggle>
+      </md-button-toggle-group>
+
+      <h1>Main</h1>
     </div>
-</md-sidenav-container>
+  </md-sidenav-container>
+</div>
+
+<md-menu #settingMenu="mdMenu">
+
+  <button md-menu-item>
+    <md-icon>dialpad</md-icon>
+    <span>Redial</span>
+  </button>
+  <button md-menu-item disabled>
+    <md-icon>voicemail</md-icon>
+    <span>Check voicemail</span>
+  </button>
+  <button md-menu-item>
+    <md-icon>notifications_off</md-icon>
+    <span>Disable alerts</span>
+  </button>
+</md-menu>

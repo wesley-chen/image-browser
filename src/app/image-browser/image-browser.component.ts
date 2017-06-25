@@ -115,6 +115,7 @@ export class ImageBrowserComponent {
     goTo(filePath: string) {
         this.tree = this.fileSytemService.buildFolderTree(filePath);
         this.initContainers(this.tree.images);
+        this.uiSetting.leftPanelShow = true;
     }
 
     handleDrop(e: DragEvent) {

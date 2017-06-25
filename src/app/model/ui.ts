@@ -1,7 +1,7 @@
 export class UISetting {
-    leftPanelShow: string = 'true';
+    leftPanelShow: boolean = true;
     leftPanelWidth: number = 200;
-    rightPanelShow: string = 'true';
+    rightPanelShow: boolean = true;
     rightPanelWidth: number = 100;
 }
 

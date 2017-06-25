@@ -2,7 +2,7 @@
   <div id="header">
     <md-toolbar color="primary">
 
-      <button md-icon-button>
+      <button md-icon-button (click)="toggleLeftPanel()">
         <md-icon >folder</md-icon>
       </button>
       <div *ngFor=" let parent of tree.parents" class="breadcrumb">
@@ -33,7 +33,7 @@
   </div>
 
   <div id="main" fxLayout="row" fxLayout.xs="column" fxFlex>
-    <div fxFlex="200px" fxFlexOrder fxFlexOrder.xs="2" *ngIf="!isFullScreenMode">
+    <div fxFlex="200px" fxFlexOrder fxFlexOrder.xs="2" *ngIf="uiSetting.leftPanelShow">
       <md-nav-list>
         <md-list-item *ngFor="let child of tree.childFolders ">
           <a md-line href="# " (click)="goTo(child.path)">{{ child.name }}</a>

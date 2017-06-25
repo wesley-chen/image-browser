@@ -145,14 +145,18 @@ export class ImageBrowserComponent {
 
     toggleFullScreen() {
         if (this.isFullScreenMode) {
-            this.uiSetting.leftPanelShow = "true";
+            this.uiSetting.leftPanelShow = true;
             ipcRenderer.send('turn-off-full-screen-mode');
         } else {
-            this.uiSetting.leftPanelShow = "false";
+            this.uiSetting.leftPanelShow = false;
             ipcRenderer.send('turn-on-full-screen-mode');
         }
 
         this.isFullScreenMode = !this.isFullScreenMode;
+    }
+
+    toggleLeftPanel() {
+        this.uiSetting.leftPanelShow = !this.uiSetting.leftPanelShow;
     }
 
     openDirectory() {

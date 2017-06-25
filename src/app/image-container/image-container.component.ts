@@ -5,7 +5,8 @@ import { ImageContainer } from './image-container.model';
 
 @Component({
     selector: 'tp-image-container',
-    templateUrl: 'image-container.component.html'
+    templateUrl: 'image-container.component.html',
+    styleUrls: ['image-container.component.css']
 })
 export class ImageContainerComponent {
 

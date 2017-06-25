@@ -4,7 +4,8 @@ import { ImageGridSetting, WidthMode } from './image-grid.model';
 
 @Component({
     selector: 'tp-image-grid',
-    templateUrl: 'image-grid.component.m.html'
+    templateUrl: 'image-grid.component.m.html',
+    styleUrls: ['image-grid.component.css']
 })
 export class ImageGridComponent {
 
@@ -15,6 +16,7 @@ export class ImageGridComponent {
 
     boxStyle: Object;
     containerWidth: number;
+
 
     currentIdx: number = -1;
     currentImage: Image = null;
@@ -53,7 +55,11 @@ export class ImageGridComponent {
 
 
     constructor(private elementRef: ElementRef) {
-        this.containerWidth = elementRef.nativeElement.parentNode.clientWidth;
+    }
+
+    ngAfterViewInit() {
+        //console.dir(this.elementRef.nativeElement);
+        //console.log('ngAfterViewInit width: ' + this.elementRef.nativeElement.parentNode.clientWidth);
     }
 
     changeWidth(widthModeStr: string) {
@@ -68,28 +74,37 @@ export class ImageGridComponent {
     _changeWidth(widthMode: WidthMode) {
 
         //console.log('ok3' + this.settings.widthMode);
-        var defaultWidth = 136;
+        let defaultWidth = 130;
+        let captionHeight = 17;
+        let cardPadding = 24;
+        this.containerWidth = this.elementRef.nativeElement.parentNode.clientWidth;
+
         var width = defaultWidth;
         if (widthMode == WidthMode.Small) {
-            width = defaultWidth;
-            var height = (this.setting.showCaption ? width + 20 : width);
+            var height = (this.setting.showCaption ? width + captionHeight : width);
             this.boxStyle = { "width": width + "px", "height": height + "px" };
         } else if (widthMode == WidthMode.Middle) {
             width = defaultWidth * 2;
-            var height = (this.setting.showCaption ? width + 20 : width);
+            var height = (this.setting.showCaption ? width + captionHeight : width);
             this.boxStyle = { "width": width + "px", "height": height + "px" };
         } else if (widthMode == WidthMode.FitWidth) {
-            width = this.containerWidth - 80; //remove paddings
-            this.boxStyle = { "height": "100%" };
+            width = this.containerWidth - 60; //remove paddings
+            this.boxStyle = { "width": width + "px", "height": "100%" };
         } else if (widthMode == WidthMode.Percent100) {
             this.boxStyle = { "height": "100%" };
         }
-
-        width = width - 10; //remove paddings
+        // console.log('width: ' + width);
 
         for (let img of this.imageList.listAll()) {
+
             var imageRate = width / Math.max(img.width, img.height, 1);
-            if (widthMode == WidthMode.Percent100 || imageRate > 1) {
+            if (widthMode == WidthMode.FitWidth) {
+                imageRate = width / Math.max(img.width, 1);
+            } else if (widthMode == WidthMode.Percent100) {
+                imageRate = 1;
+            }
+
+            if (imageRate > 1) { // don't zoom in
                 imageRate = 1;
             }
 

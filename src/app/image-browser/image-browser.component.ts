@@ -1,9 +1,9 @@
 import { Component, HostListener, ViewChildren, QueryList } from '@angular/core';
 import { FileSystemService, Logger } from '../services';
-import { Image, ImageList, FileModel, FolderTree, Action, ImageEvent } from '../model';
+import { Image, ImageList, FileModel, FolderTree, Action, ImageEvent, UISetting } from '../model';
 import { ImageGridSetting, WidthMode } from '../image-grid';
 import { ImageContainer, ImageContainerComponent, ICommand } from '../image-container';
-const {ipcRenderer} = require('electron')
+const { ipcRenderer } = require('electron')
 
 @Component({
     selector: 'tp-image-browser',
@@ -18,6 +18,8 @@ export class ImageBrowserComponent {
     imageGridSetting: ImageGridSetting = new ImageGridSetting(WidthMode.Middle, true);
 
     isFullScreenMode: boolean = false;
+    uiSetting: UISetting = new UISetting();
+
     activeContainer: ImageContainer
     containers: ImageContainer[];
 
@@ -143,9 +145,10 @@ export class ImageBrowserComponent {
 
     toggleFullScreen() {
         if (this.isFullScreenMode) {
-
+            this.uiSetting.leftPanelShow = "true";
             ipcRenderer.send('turn-off-full-screen-mode');
         } else {
+            this.uiSetting.leftPanelShow = "false";
             ipcRenderer.send('turn-on-full-screen-mode');
         }
 

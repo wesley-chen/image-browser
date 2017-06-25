@@ -1,28 +1,27 @@
 <div id="grid-bar">
     <md-button-toggle-group #viewSizeOptionGroup="mdButtonToggleGroup">
-        <md-button-toggle value="Small">
+        <md-button-toggle value="Small" (click)="changeWidth('Small')">
             <md-icon>view_comfy</md-icon>
         </md-button-toggle>
-        <md-button-toggle value="Middle">
+        <md-button-toggle value="Middle" (click)="changeWidth('Middle')">
             <md-icon>view_module</md-icon>
         </md-button-toggle>
-        <md-button-toggle value="FitWidth">
+        <md-button-toggle value="FitWidth" (click)="changeWidth('FitWidth')">
             <md-icon>view_stream</md-icon>
         </md-button-toggle>
     </md-button-toggle-group>
 </div>
 
-<div id="img-container">
-    <md-grid-list cols="6">
-        <md-grid-tile *ngFor="let img of images.listAll(); let idx = index;">
-            <md-card id="imgbox-{{idx}}" *ngIf="img.visible" (mouseenter)="moveTo(img, idx, false)">
-                <img md-card-image src="{{img.url}}" (click)='onClick($event, img, false)' (dblclick)='onClick($event, img, true)'>
-                <md-card-content *ngIf="setting.showCaption">
-                    <p>
-                        {{img.fileName}}
-                    </p>
-                </md-card-content>
-            </md-card>
-        </md-grid-tile>
-    </md-grid-list>
+<div id="img-grid">
+    <div *ngFor="let img of images.listAll(); let idx = index;">
+        <md-card id="imgbox-{{idx}}" *ngIf="img.visible" (mouseenter)="moveTo(img, idx, false)" class="imgbox" [ngStyle]="boxStyle">
+            <img md-card-image src="{{img.url}}" [ngStyle]="img.imgStyle" [class.mat-elevation-z10]="(img == currentImage)" (click)='onClick($event, img, false)'
+                (dblclick)='onClick($event, img, true)'>
+            <md-card-content *ngIf="setting.showCaption">
+                <p>
+                    {{img.fileName}}
+                </p>
+            </md-card-content>
+        </md-card>
+    </div>
 </div>

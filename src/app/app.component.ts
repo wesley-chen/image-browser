@@ -11,8 +11,8 @@ import '../assets/css/styles.m.css';
 })
 export class AppComponent {
   constructor(iconRegistry: MdIconRegistry, sanitizer: DomSanitizer) {
-    var img = require('../assets/images/ic_close_48px.svg');
-    iconRegistry.addSvgIcon(
-      'close', img);
+    // var img = require('../assets/images/ic_close_48px.svg');
+    // iconRegistry.addSvgIcon(
+    //   'close', img);
   }
 }

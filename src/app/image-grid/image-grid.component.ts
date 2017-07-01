@@ -70,11 +70,10 @@ export class ImageGridComponent {
     changeWidth(widthMode: string) {
 
         //console.log('ok3' + this.settings.widthMode);
-        let defaultWidth = 130;
-        let captionHeight = 17;
-        let cardPadding = 24;
+        let defaultWidth = 140;
+        let captionHeight = 20;
         this.containerWidth = this.elementRef.nativeElement.parentNode.clientWidth;
-        //this.elementRef.nativeElement.parentNode.width = this.containerWidth;
+        this.elementRef.nativeElement.parentNode.width = this.containerWidth;
 
         var width = defaultWidth;
         if (widthMode == WidthMode.SMALL) {
@@ -85,7 +84,7 @@ export class ImageGridComponent {
             var height = (this.setting.showCaption ? width + captionHeight : width);
             this.boxStyle = { "width": width + "px", "height": height + "px" };
         } else if (widthMode == WidthMode.FIT_WIDTH) {
-            width = this.containerWidth - 60; //remove paddings
+            width = this.containerWidth - 30; //remove paddings
             this.boxStyle = { "width": width + "px", "height": "100%" };
         } else if (widthMode == WidthMode.PERCENT_100) {
             this.boxStyle = { "height": "100%", "clear": "both" };

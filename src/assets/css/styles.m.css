@@ -19,6 +19,11 @@ html, body, material-app, md-sidenav-container {
     left: 0;
     right: 0;
     height: 64px;
+    -webkit-app-region: drag;
+}
+
+#header button {
+  -webkit-app-region: no-drag;
 }
 
 #path-toolbar {

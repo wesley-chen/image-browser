@@ -41,7 +41,7 @@
       </md-nav-list>
     </div>
     <div fxFlex="grow" fxFlexOrder fxFlexOrder.xs="1">
-      <div class="main-content">
+      <div id="main-panel">
         <tp-image-grid [images]="activeContainer.images " [setting]="imageGridSetting " (imageClicked)="onImageClicked($event) "></tp-image-grid>
       </div>
     </div>
@@ -69,9 +69,5 @@
   <button md-menu-item disabled>
       <md-icon>voicemail</md-icon>
       <span>Check voicemail</span>
-    </button>
-  <button md-menu-item>
-      <md-icon>notifications_off</md-icon>
-      <span>Disable alerts</span>
     </button>
 </md-menu>

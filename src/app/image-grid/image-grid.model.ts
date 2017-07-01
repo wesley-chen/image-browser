@@ -1,16 +1,16 @@
-export enum WidthMode {
-    Small,
-    Middle,
-    FitWidth,
-    Percent100
+export class WidthMode {
+    static readonly SMALL = "Small";
+    static readonly MIDDLE = "Middle";
+    static readonly FIT_WIDTH = "FitWidth";
+    static readonly PERCENT_100 = "Percent100";
 }
 
 export class ImageGridSetting {
 
-    public widthMode: WidthMode;
+    public widthMode: string = WidthMode.MIDDLE;
     public showCaption: boolean;
 
-    constructor(widthMode: WidthMode, showCaption: boolean) {
+    constructor(widthMode: string, showCaption: boolean) {
         this.widthMode = widthMode;
         this.showCaption = showCaption;
     };

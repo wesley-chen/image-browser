@@ -1,7 +1,7 @@
 import { Component, HostListener, ViewChildren, QueryList } from '@angular/core';
 import { FileSystemService, Logger } from '../services';
 import { Image, ImageList, FileModel, FolderTree, Action, ImageEvent, UISetting } from '../model';
-import { ImageGridSetting, WidthMode } from '../image-grid';
+import { ImageGridComponent, ImageGridSetting, WidthMode } from '../image-grid';
 import { ImageContainer, ImageContainerComponent, ICommand } from '../image-container';
 const { ipcRenderer } = require('electron')
 
@@ -15,7 +15,10 @@ export class ImageBrowserComponent {
     readonly logger: Logger = new Logger();
     rootPath: string = "E:\图片";
     tree: FolderTree;
-    imageGridSetting: ImageGridSetting = new ImageGridSetting(WidthMode.Middle, true);
+
+    imageGridSetting: ImageGridSetting = new ImageGridSetting(WidthMode.MIDDLE, true);
+    @ViewChildren(ImageGridComponent)
+    gridComponents: QueryList<ImageGridComponent>;
 
     isFullScreenMode: boolean = false;
     uiSetting: UISetting = new UISetting();
@@ -26,7 +29,16 @@ export class ImageBrowserComponent {
     @ViewChildren(ImageContainerComponent)
     containerComponents: QueryList<ImageContainerComponent>;
 
-    constructor(private fileSytemService: FileSystemService) { }
+    constructor(private fileSytemService: FileSystemService) {
+
+    }
+
+    ngAfterViewInit() {
+        ipcRenderer.on('resize', (event) => {
+            console.log("resize");
+            this.gridComponents.forEach(grid => grid.refresh());
+        });
+    }
 
     initContainers(images: Image[]) {
         this.activeContainer = this.creaeteMainContainer(images);
@@ -159,6 +171,7 @@ export class ImageBrowserComponent {
     toggleLeftPanel() {
         this.uiSetting.leftPanelShow = !this.uiSetting.leftPanelShow;
     }
+
 
     openDirectory() {
         var remote = require('electron').remote;

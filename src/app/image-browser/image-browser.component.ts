@@ -1,30 +1,44 @@
 import { Component, HostListener, ViewChildren, QueryList } from '@angular/core';
 import { FileSystemService, Logger } from '../services';
-import { Image, ImageList, FileModel, FolderTree, Action, ImageEvent } from '../model';
-import { ImageGridSetting, WidthMode } from '../image-grid';
+import { Image, ImageList, FileModel, FolderTree, Action, ImageEvent, UISetting } from '../model';
+import { ImageGridComponent, ImageGridSetting, WidthMode } from '../image-grid';
 import { ImageContainer, ImageContainerComponent, ICommand } from '../image-container';
-const {ipcRenderer} = require('electron')
+const { ipcRenderer } = require('electron')
 
 @Component({
     selector: 'tp-image-browser',
     providers: [FileSystemService],
-    templateUrl: 'image-browser.component.html'
+    templateUrl: 'image-browser.component.m.html'
 })
 export class ImageBrowserComponent {
 
     readonly logger: Logger = new Logger();
     rootPath: string = "E:\图片";
     tree: FolderTree;
-    imageGridSetting: ImageGridSetting = new ImageGridSetting(WidthMode.Middle, true);
+
+    imageGridSetting: ImageGridSetting = new ImageGridSetting(WidthMode.MIDDLE, true);
+    @ViewChildren(ImageGridComponent)
+    gridComponents: QueryList<ImageGridComponent>;
 
     isFullScreenMode: boolean = false;
+    uiSetting: UISetting = new UISetting();
+
     activeContainer: ImageContainer
     containers: ImageContainer[];
 
     @ViewChildren(ImageContainerComponent)
     containerComponents: QueryList<ImageContainerComponent>;
 
-    constructor(private fileSytemService: FileSystemService) { }
+    constructor(private fileSytemService: FileSystemService) {
+
+    }
+
+    ngAfterViewInit() {
+        ipcRenderer.on('resize', (event) => {
+            console.log("resize");
+            this.gridComponents.forEach(grid => grid.refresh());
+        });
+    }
 
     initContainers(images: Image[]) {
         this.activeContainer = this.creaeteMainContainer(images);
@@ -113,6 +127,7 @@ export class ImageBrowserComponent {
     goTo(filePath: string) {
         this.tree = this.fileSytemService.buildFolderTree(filePath);
         this.initContainers(this.tree.images);
+        this.uiSetting.leftPanelShow = true;
     }
 
     handleDrop(e: DragEvent) {
@@ -143,14 +158,20 @@ export class ImageBrowserComponent {
 
     toggleFullScreen() {
         if (this.isFullScreenMode) {
-
+            this.uiSetting.leftPanelShow = true;
             ipcRenderer.send('turn-off-full-screen-mode');
         } else {
+            this.uiSetting.leftPanelShow = false;
             ipcRenderer.send('turn-on-full-screen-mode');
         }
 
         this.isFullScreenMode = !this.isFullScreenMode;
     }
+
+    toggleLeftPanel() {
+        this.uiSetting.leftPanelShow = !this.uiSetting.leftPanelShow;
+    }
+
 
     openDirectory() {
         var remote = require('electron').remote;

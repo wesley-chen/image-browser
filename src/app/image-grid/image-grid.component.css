@@ -1,0 +1,26 @@
+.grid-common {
+  width: 100%;
+}
+
+.grid-FitWidth {
+  width: 0px;
+}
+
+.grid-Percent100 {
+  width: 0px;
+}
+
+/* Override */
+
+.mat-card {
+    padding: 5px;
+}
+
+.mat-card-image:first-child {
+    margin: 0px;
+    margin-bottom: 3px;
+}
+
+.mat-card-image:first-child {
+    margin-top: 0px;
+}

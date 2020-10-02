@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
-import 'bootstrap/dist/css/bootstrap.css';
-import '@angular/material/core/theming/prebuilt/pink-bluegrey.css';
-import 'font-awesome/css/font-awesome.css';
-import '../assets/css/styles.css';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MdIconRegistry } from '@angular/material';
+
+import '../assets/css/styles.m.css';
 
 
 @Component({
   selector: 'app',
   templateUrl: 'app.component.html'
 })
-export class AppComponent { }
+export class AppComponent {
+  constructor(iconRegistry: MdIconRegistry, sanitizer: DomSanitizer) {
+    // var img = require('../assets/images/ic_close_48px.svg');
+    // iconRegistry.addSvgIcon(
+    //   'close', img);
+  }
+}

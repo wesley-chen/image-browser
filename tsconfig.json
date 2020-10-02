@@ -9,6 +9,7 @@
     "allowSyntheticDefaultImports": true,
     "removeComments": false,
     "noImplicitAny": true,
+    "skipLibCheck": true,
     "suppressImplicitAnyIndexErrors": true
   },
   "types": [

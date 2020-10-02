@@ -15,5 +15,6 @@
         "**/bower_components": true,
         "build": true,
         "dist": true
-    }
+    },
+    "git.ignoreLimitWarning": true
 }

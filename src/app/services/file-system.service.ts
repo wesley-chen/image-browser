@@ -133,10 +133,15 @@ export class FileSystemService {
                     img.filePath = childFile.path;
                     img.url = URL(childFile.path);
 
-                    let dimensions = IMG_SIZE(childPath);
-
-                    img.width = dimensions.width;
-                    img.height = dimensions.height;
+                    try {
+                        let dimensions = IMG_SIZE(childPath);
+                        img.width = dimensions.width;
+                        img.height = dimensions.height;
+                    } catch (e) {
+                        console.log("Warning: cannot detect image size for " + img.fileName + ", error = " + e);
+                        img.width = 100;
+                        img.height = 100;
+                    }
                     images.push(img);
                 }
 

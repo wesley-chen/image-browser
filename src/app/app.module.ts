@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MaterialModule, MdIconRegistry } from '@angular/material';
+
 
 import { AppComponent } from './app.component';
 
@@ -10,9 +13,10 @@ import { ImageContainerComponent } from './image-container';
 
 @NgModule({
   imports: [
-    BrowserModule, MaterialModule.forRoot()
+    BrowserModule, BrowserAnimationsModule, FlexLayoutModule, MaterialModule
   ],
   declarations: [AppComponent, ImageBrowserComponent, ImageGridComponent, ImageContainerComponent],
+  providers: [MdIconRegistry],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,9 +2,9 @@ const electron = require('electron');
 const Path = require('path');
 
 // Module to control application life.
-const {app, ipcMain, globalShortcut} = electron;
+const { app, ipcMain, globalShortcut } = electron;
 // Module to create native browser window.
-const {BrowserWindow} = electron;
+const { BrowserWindow } = electron;
 
 
 let client;
@@ -92,10 +92,12 @@ ipcMain.on('close-main-window', function () {
   app.quit();
 });
 
-ipcMain.on('turn-on-full-screen-mode', function () {
+ipcMain.on('turn-on-full-screen-mode', function (event, arg) {
   win.setFullScreen(true);
+  event.sender.send('resize');
 });
 
-ipcMain.on('turn-off-full-screen-mode', function () {
+ipcMain.on('turn-off-full-screen-mode', function (event, arg) {
   win.setFullScreen(false);
+  event.sender.send('resize');
 });

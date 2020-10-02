@@ -4,7 +4,8 @@ import { ImageGridSetting, WidthMode } from './image-grid.model';
 
 @Component({
     selector: 'tp-image-grid',
-    templateUrl: 'image-grid.component.html'
+    templateUrl: 'image-grid.component.m.html',
+    styleUrls: ['image-grid.component.css']
 })
 export class ImageGridComponent {
 
@@ -15,6 +16,7 @@ export class ImageGridComponent {
 
     boxStyle: Object;
     containerWidth: number;
+
 
     currentIdx: number = -1;
     currentImage: Image = null;
@@ -53,43 +55,52 @@ export class ImageGridComponent {
 
 
     constructor(private elementRef: ElementRef) {
-        this.containerWidth = elementRef.nativeElement.parentNode.clientWidth;
     }
 
-    changeWidth(widthModeStr: string) {
-        let widthMode = WidthMode[widthModeStr];
-        this._changeWidth(widthMode);
+    ngAfterViewInit() {
+        //console.dir(this.elementRef.nativeElement);
+        //console.log('ngAfterViewInit width: ' + this.elementRef.nativeElement.parentNode.clientWidth);
     }
+
 
     refresh() {
-        this._changeWidth(this.setting.widthMode);
+        this.changeWidth(this.setting.widthMode);
     }
 
-    _changeWidth(widthMode: WidthMode) {
+    changeWidth(widthMode: string) {
 
         //console.log('ok3' + this.settings.widthMode);
-        var defaultWidth = 136;
-        var width = defaultWidth;
-        if (widthMode == WidthMode.Small) {
-            width = defaultWidth;
-            var height = (this.setting.showCaption ? width + 20 : width);
-            this.boxStyle = { "width": width + "px", "height": height + "px" };
-        } else if (widthMode == WidthMode.Middle) {
-            width = defaultWidth * 2;
-            var height = (this.setting.showCaption ? width + 20 : width);
-            this.boxStyle = { "width": width + "px", "height": height + "px" };
-        } else if (widthMode == WidthMode.FitWidth) {
-            width = this.containerWidth - 80; //remove paddings
-            this.boxStyle = { "height": "100%" };
-        } else if (widthMode == WidthMode.Percent100) {
-            this.boxStyle = { "height": "100%" };
-        }
+        let defaultWidth = 140;
+        let captionHeight = 20;
+        this.containerWidth = this.elementRef.nativeElement.parentNode.clientWidth;
+        this.elementRef.nativeElement.parentNode.width = this.containerWidth;
 
-        width = width - 10; //remove paddings
+        var width = defaultWidth;
+        if (widthMode == WidthMode.SMALL) {
+            var height = (this.setting.showCaption ? width + captionHeight : width);
+            this.boxStyle = { "width": width + "px", "height": height + "px" };
+        } else if (widthMode == WidthMode.MIDDLE) {
+            width = defaultWidth * 2;
+            var height = (this.setting.showCaption ? width + captionHeight : width);
+            this.boxStyle = { "width": width + "px", "height": height + "px" };
+        } else if (widthMode == WidthMode.FIT_WIDTH) {
+            width = this.containerWidth - 30; //remove paddings
+            this.boxStyle = { "width": width + "px", "height": "100%" };
+        } else if (widthMode == WidthMode.PERCENT_100) {
+            this.boxStyle = { "height": "100%", "clear": "both" };
+        }
+        // console.log('width: ' + width);
 
         for (let img of this.imageList.listAll()) {
+
             var imageRate = width / Math.max(img.width, img.height, 1);
-            if (widthMode == WidthMode.Percent100 || imageRate > 1) {
+            if (widthMode == WidthMode.FIT_WIDTH) {
+                imageRate = width / Math.max(img.width, 1);
+            } else if (widthMode == WidthMode.PERCENT_100) {
+                imageRate = 1;
+            }
+
+            if (imageRate > 1) { // don't zoom in
                 imageRate = 1;
             }
 
@@ -97,7 +108,12 @@ export class ImageGridComponent {
             var imgWidth = Math.max(imageRate * img.width, 1);
             var imgHeight = Math.max(imageRate * img.height, 1);
 
-            img.imgStyle = { "width": imgWidth + "px", "height": imgHeight + "px" };
+            let imgStyle = { "width": imgWidth + "px", "height": imgHeight + "px" };
+
+            if (widthMode == WidthMode.PERCENT_100) {
+                imgStyle = Object.assign(imgStyle, { "float": "left" });
+            }
+            img.imgStyle = imgStyle;
         }
 
         this.setting.widthMode = widthMode;

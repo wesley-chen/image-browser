@@ -30,7 +30,7 @@
     "reflect-metadata": "^0.1.8",
     "rxjs": "^5.5.0",
     "zone.js": "^0.8.12",
-    "electron": "1.4.7",
+    "electron": "9.4.0",
     "file-url": "^2.0.0",
     "hammerjs": "^2.0.8",
     "image-size": "0.5.1",
